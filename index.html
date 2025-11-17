@@ -1,0 +1,4305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'clock Studio - Timepieces | Luxury Watches Collection</title>
+    <meta name="description" content="Discover premium timepieces at O'clock Studio. Luxury watches for every occasion with authenticity guarantee and fast delivery.">
+    <meta name="keywords" content="luxury watches, premium timepieces, wristwatches, classic watches, sport watches">
+    <meta name="author" content="O'clock Studio">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #131921;
+            --accent-color: #d4af37;
+            --secondary-color: #232f3e;
+            --light-gray: #f7f8fa;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom scrollbar styles */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #b8941f;
+        }
+
+        /* Enhanced modal scrolling */
+        .modal-content {
+            max-height: calc(90vh - 100px);
+            overflow-y: auto;
+        }
+
+        /* Order tracking section with scrolling */
+        .tracking-results-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            background: #f9fafb;
+        }
+
+        .watch-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e1e1e1;
+        }
+
+        .watch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .watch-card img {
+            transition: transform 0.5s ease;
+        }
+
+        .watch-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .pulse-badge {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+        }
+
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus styles for better accessibility */
+        button:focus,
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--accent-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Mobile responsiveness improvements */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+
+            .mobile-menu.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+
+            .filter-section {
+                display: none;
+            }
+
+            .filter-section.active {
+                display: block;
+            }
+        }
+
+        /* New styles for e-commerce look */
+        .category-pill {
+            transition: all 0.2s ease;
+        }
+
+        .category-pill:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .banner-slide {
+            display: none;
+        }
+
+        .banner-slide.active {
+            display: block;
+        }
+
+        .review-stars {
+            color: #ffa500;
+        }
+
+        .deal-timer {
+            background: linear-gradient(90deg, #ff7e7e, #ff4d4d);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Logo styling */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Enhanced product detail styling */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .spec-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Trust badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Enhanced filter section */
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        /* Product sorting */
+        .sort-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sort-btn {
+            padding: 8px 15px;
+            background: #f1f1f1;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .sort-btn.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 350px;
+            cursor: default;
+        }
+
+        .notification button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .notification button:hover {
+            opacity: 1;
+        }
+
+        .notification.success {
+            background-color: #10b981;
+        }
+
+        .notification.error {
+            background-color: #ef4444;
+        }
+
+        .notification.warning {
+            background-color: #f59e0b;
+        }
+
+        .notification.info {
+            background-color: #3b82f6;
+        }
+
+        /* Filter toggle button */
+        .filter-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .filter-toggle {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background-color: var(--accent-color);
+                color: white;
+                padding: 10px 16px;
+                border-radius: 8px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-toggle i {
+                transition: transform 0.3s ease;
+            }
+
+            .filter-toggle.active i {
+                transform: rotate(180deg);
+            }
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .admin-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .admin-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .admin-badge.luxury {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .admin-badge.sport {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .admin-badge.classic {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .spec-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .feature-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .spec-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-color);
+        }
+
+        .admin-tab-content {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .product-card-admin {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .product-card-admin:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-color);
+            background-color: #fefce8;
+        }
+
+        .upload-area.dragover {
+            border-color: var(--accent-color);
+            background-color: #fefce8;
+        }
+
+        .image-gallery-item {
+            position: relative;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .image-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-gallery-item .image-actions {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .image-gallery-item:hover .image-actions {
+            opacity: 1;
+        }
+
+        .image-gallery-item .image-actions button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .image-gallery-item .image-actions button:hover {
+            background: white;
+        }
+
+        .image-gallery-item .main-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: var(--accent-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* Product detail image thumbnails */
+        #detailProductImageGallery img {
+            transition: all 0.2s ease;
+        }
+
+        #detailProductImageGallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Enhanced cart styles */
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .quantity-btn {
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .remove-btn {
+            transition: all 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Smooth modal transitions */
+        .modal-transition {
+            transition: all 0.3s ease;
+        }
+
+        /* Banner styles */
+        .banner-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 1;
+        }
+
+        .banner-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .banner-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .banner-indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Orders section styles */
+        .order-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .order-header {
+            background: #f9fafb;
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-items {
+            padding: 16px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .order-actions {
+            padding: 16px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-shipped {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-delivered {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .status-cancelled {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        /* Order tracking styles */
+        .tracking-modal {
+            max-width: 600px;
+        }
+
+        .tracking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .tracking-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+
+        .tracking-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .tracking-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+
+        .tracking-step.active:not(:last-child)::after {
+            background: var(--accent-color);
+        }
+
+        .step-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            z-index: 2;
+        }
+
+        .tracking-step.active .step-icon {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .tracking-step.completed .step-icon {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 12px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .tracking-step.active .step-label {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .tracking-step.completed .step-label {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .tracking-details {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Order list styles for tracking */
+        .order-list-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .order-list-item:hover {
+            background-color: #f9fafb;
+            border-color: var(--accent-color);
+        }
+
+        .order-list-item.active {
+            background-color: #fefce8;
+            border-color: var(--accent-color);
+        }
+
+        /* Delete button styles */
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Top Bar - Updated with Order Tracking -->
+    <div class="bg-gray-800 text-white py-2 text-sm">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="hidden md:flex items-center space-x-4">
+                <span><i class="fas fa-phone mr-2"></i>01577078101</span>
+                <span><i class="fas fa-map-marker-alt mr-2"></i>Dhaka, Bangladesh</span>
+                <button id="trackOrderBtn" class="hover:text-yellow-400 transition">
+                    <i class="fas fa-truck mr-1"></i> Track Your Order
+                </button>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="https://wa.me/8801577078101?text=Hi%20O'clock%20Studio" target="_blank"
+                    class="hover:text-yellow-400 transition">
+                    <i class="fab fa-whatsapp mr-1"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <button id="mobileMenuButton" class="md:hidden text-gray-600 hover:text-gray-900 transition">
+                        <i class="fas fa-bars text-xl"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                    </button>
+                    <div class="logo">
+                        <div>
+                            <h1 class="font-playfair text-2xl font-bold text-gray-800">O'clock Studio</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-2xl mx-8">
+                    <div class="relative w-full">
+                        <input type="text" id="searchInput" placeholder="Search for watches, brands, and more..."
+                            class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-l-lg focus:outline-none focus:border-yellow-500">
+                        <button id="searchButton"
+                            class="absolute right-0 top-0 bottom-0 bg-yellow-500 text-white px-4 rounded-r-lg hover:bg-yellow-600 transition">
+                            <i class="fas fa-search"></i>
+                            <span class="sr-only">Search</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cart and Wishlist buttons -->
+                <div class="flex items-center space-x-4">
+                    <button id="adminButton" class="hidden text-gray-600 hover:text-gray-900 transition relative"
+                        onclick="showAdminPanel()">
+                        <i class="fas fa-cog text-xl"></i>
+                        <span class="sr-only">Admin</span>
+                    </button>
+                    <button id="wishlistButton" class="text-gray-600 hover:text-gray-900 transition relative">
+                        <i class="fas fa-heart text-xl"></i>
+                        <span id="wishlistCount"
+                            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+                        <span class="sr-only">Wishlist</span>
+                    </button>
+                    <button id="cartButton"
+                        class="relative bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">
+                        <i class="fas fa-shopping-cart mr-2" aria-hidden="true"></i>
+                        Cart
+                        <span id="cartCount"
+                            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search -->
+            <div class="md:hidden mt-3">
+                <div class="relative w-full">
+                    <input type="text" id="mobileSearchInput" placeholder="Search for watches..."
+                        class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:border-yellow-500">
+                    <button id="mobileSearchButton"
+                        class="absolute right-0 top-0 bottom-0 bg-yellow-500 text-white px-4 rounded-r-lg hover:bg-yellow-600 transition">
+                        <i class="fas fa-search"></i>
+                        <span class="sr-only">Search</span>
+                        </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="mobile-menu md:hidden">
+            <button onclick="scrollToSection('products')"
+                class="block w-full text-left py-2 text-gray-600 hover:text-gray-900">Products</button>
+            <button onclick="showOrderTrackingModal()"
+                class="block w-full text-left py-2 text-gray-600 hover:text-gray-900">Track Order</button>
+            <a href="https://wa.me/8801577078101?text=Hi%20O'clock%20Studio" target="_blank"
+                class="block w-full text-left py-2 text-gray-600 hover:text-gray-900">Contact via WhatsApp</a>
+        </div>
+    </header>
+
+    <!-- UPDATED BANNER SECTION -->
+    <section class="relative bg-gray-100 py-4">
+        <div class="container mx-auto px-4">
+            <div class="banner-container rounded-lg overflow-hidden shadow-lg" style="height: 60vh; max-height: 500px; min-height: 300px;">
+                <!-- Banner Slides -->
+                <div class="banner-slide active">
+                    <div class="h-full flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-700 relative">
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content text-center text-white">
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-playfair">O'clock Studio</h1>
+                            <p class="text-xl md:text-2xl mb-6">Premium Timepieces & Luxury Watches</p>
+                            <p class="text-lg mb-8 max-w-2xl mx-auto">Discover our exclusive collection of handcrafted watches for every occasion</p>
+                            <button onclick="scrollToSection('products')" 
+                                    class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="banner-slide">
+                    <div class="h-full flex items-center justify-center bg-gradient-to-r from-blue-900 to-indigo-800 relative">
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content text-center text-white">
+                            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-playfair">Exclusive Collection</h2>
+                            <p class="text-xl md:text-2xl mb-6">Luxury Watches for Every Occasion</p>
+                            <p class="text-lg mb-8 max-w-2xl mx-auto">From classic elegance to modern sophistication, find your perfect timepiece</p>
+                            <button onclick="scrollToSection('products')" 
+                                    class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                Explore Collection
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="banner-slide">
+                    <div class="h-full flex items-center justify-center bg-gradient-to-r from-amber-900 to-yellow-700 relative">
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content text-center text-white">
+                            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-playfair">Limited Time Offer</h2>
+                            <p class="text-xl md:text-2xl mb-6">Up to 30% Off Selected Models</p>
+                            <p class="text-lg mb-8 max-w-2xl mx-auto">Don't miss out on our special promotions and exclusive deals</p>
+                            <button onclick="scrollToSection('products')" 
+                                    class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                Shop Deals
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Banner Indicators -->
+                <div class="banner-indicators">
+                    <div class="banner-indicator active" onclick="changeBannerSlide(0)"></div>
+                    <div class="banner-indicator" onclick="changeBannerSlide(1)"></div>
+                    <div class="banner-indicator" onclick="changeBannerSlide(2)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-8 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Timepieces</h2>
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-600">Showing <span id="productCount">0</span> products</span>
+                </div>
+            </div>
+
+            <!-- Filter Toggle Button (Mobile Only) -->
+            <button id="filterToggle" class="filter-toggle">
+                <i class="fas fa-filter"></i>
+                <span>Filter & Sort</span>
+            </button>
+
+            <!-- Filter and Sort Section -->
+            <div id="filterSection" class="filter-section">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <!-- Filter Tabs -->
+                    <div class="flex flex-wrap gap-2">
+                        <button id="filterAll"
+                            class="filter-btn px-6 py-2 rounded-full bg-gray-900 text-white transition">All</button>
+                        <button id="filterLuxury"
+                            class="filter-btn px-6 py-2 rounded-full hover:bg-gray-200 transition">Luxury</button>
+                        <button id="filterSport"
+                            class="filter-btn px-6 py-2 rounded-full hover:bg-gray-200 transition">Sport</button>
+                        <button id="filterClassic"
+                            class="filter-btn px-6 py-2 rounded-full hover:bg-gray-200 transition">Classic</button>
+                    </div>
+
+                    <!-- Sort Options -->
+                    <div class="sort-options">
+                        <span class="text-gray-600 mr-2">Sort by:</span>
+                        <button id="sortName" class="sort-btn">Name</button>
+                        <button id="sortPriceLow" class="sort-btn">Price: Low to High</button>
+                        <button id="sortPriceHigh" class="sort-btn">Price: High to Low</button>
+                        <button id="sortNewest" class="sort-btn">Newest</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden flex justify-center items-center py-12">
+                <div class="spinner"></div>
+                <span class="ml-3 text-gray-600">Loading products...</span>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <!-- Products will be loaded here -->
+            </div>
+
+            <!-- No Results Message -->
+            <div id="noResults" class="hidden text-center py-12">
+                <i class="fas fa-search text-5xl text-gray-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2">No products found</h3>
+                <p class="text-gray-600">Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Detail Modal -->
+    <div id="productDetailModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold" id="detailProductName">Product Details</h3>
+                        <button id="closeProductDetail" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <!-- Main Image -->
+                        <div class="mb-4">
+                            <img id="detailProductImage" src="" alt="" class="w-full h-auto rounded-lg">
+                        </div>
+                        <!-- Image Gallery Thumbnails -->
+                        <div id="detailProductImageGallery" class="grid grid-cols-4 gap-2">
+                            <!-- Thumbnails will be populated here -->
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold mb-2" id="detailProductTitle"></h4>
+                        <p class="text-gray-600 mb-4" id="detailProductDescription"></p>
+
+                        <!-- Product Specifications -->
+                        <div class="mb-6">
+                            <h5 class="font-semibold mb-2">Specifications:</h5>
+                            <div class="specs-grid" id="detailProductSpecs">
+                                <!-- Specifications will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="mb-6">
+                            <h5 class="font-semibold mb-2">Features:</h5>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1" id="detailProductFeatures">
+                                <!-- Features will be populated here -->
+                            </ul>
+                        </div>
+
+                        <!-- Price and Actions -->
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-yellow-600" id="detailProductPrice"></span>
+                            <span class="ml-2 text-gray-500" id="detailProductCategory"></span>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <button id="addToWishlistDetail"
+                                class="flex-1 bg-gray-100 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-200 transition flex items-center justify-center">
+                                <i class="fas fa-heart mr-2"></i>
+                                Add to Wishlist
+                            </button>
+                            <button id="addToCartDetail"
+                                class="flex-1 bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition flex items-center justify-center">
+                                <i class="fas fa-cart-plus mr-2"></i>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold">Your Cart</h3>
+                        <button id="closeCart" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="cartItems" class="p-6">
+                    <!-- Cart items will be displayed here -->
+                </div>
+                <div class="p-6 border-t">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xl font-semibold">Total:</span>
+                        <span id="cartTotal" class="text-2xl font-bold text-yellow-600">৳0</span>
+                    </div>
+                    <button id="proceedToCheckout"
+                        class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold">Your Wishlist</h3>
+                        <button id="closeWishlist" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="wishlistItems" class="p-6">
+                    <!-- Wishlist items will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold">Checkout</h3>
+                        <button id="closeCheckout" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <form id="checkoutForm" class="p-6">
+                    <div class="mb-4">
+                        <label for="fullName" class="block text-gray-700 font-semibold mb-2">Full Name *</label>
+                        <input type="text" id="fullName" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="Enter your full name">
+                        <span id="fullNameError" class="hidden text-red-500 text-sm mt-1">Please enter your full
+                            name</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phoneNumber" class="block text-gray-700 font-semibold mb-2">Phone Number *</label>
+                        <input type="tel" id="phoneNumber" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="01xxxxxxxxx">
+                        <span id="phoneError" class="hidden text-red-500 text-sm mt-1">Please enter a valid Bangladeshi
+                            phone number</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-gray-700 font-semibold mb-2">Delivery Address *</label>
+                        <textarea id="address" required rows="3"
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="Enter your complete delivery address"></textarea>
+                        <span id="addressError" class="hidden text-red-500 text-sm mt-1">Please enter your delivery
+                            address</span>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Order Summary</label>
+                        <div id="orderSummary" class="bg-gray-50 p-4 rounded-lg">
+                            <!-- Order summary will be displayed here -->
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition flex items-center justify-center">
+                        <i class="fab fa-whatsapp mr-2" aria-hidden="true"></i>
+                        Confirm Order via WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Tracking Modal -->
+    <div id="orderTrackingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl tracking-modal w-full">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold">Track Your Order</h3>
+                        <button id="closeOrderTracking" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="mb-6">
+                        <label for="trackingPhoneNumber" class="block text-gray-700 font-semibold mb-2">Phone Number *</label>
+                        <input type="tel" id="trackingPhoneNumber" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="Enter your phone number (e.g., 01xxxxxxxxx)">
+                        <span id="trackingPhoneError" class="hidden text-red-500 text-sm mt-1">Please enter a valid phone number</span>
+                    </div>
+                    <button id="trackOrderButton"
+                        class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                        Track Orders
+                    </button>
+                    
+                    <div id="trackingResult" class="mt-6 hidden">
+                        <!-- Tracking result will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-md w-full">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold">Admin Login</h3>
+                        <button id="closeAdminLogin" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <form id="adminLoginForm" class="p-6">
+                    <div class="mb-4">
+                        <label for="adminEmail" class="block text-gray-700 font-semibold mb-2">Email *</label>
+                        <input type="email" id="adminEmail" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="admin@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label for="adminPassword" class="block text-gray-700 font-semibold mb-2">Password *</label>
+                        <input type="password" id="adminPassword" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="Enter password">
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                        Login
+                    </button>
+                    <p id="adminLoginError" class="hidden text-red-500 text-sm mt-2 text-center"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel hidden">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold font-playfair">Admin Panel</h1>
+                <div class="flex gap-4">
+                    <button onclick="hideAdminPanel()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Store
+                    </button>
+                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="admin-card">
+                <div class="border-b border-gray-200">
+                    <div class="flex space-x-8">
+                        <button id="tabOrders" class="tab-btn py-4 font-semibold text-lg active border-b-2 border-yellow-500 text-yellow-600" onclick="switchAdminTab('orders')">
+                            <i class="fas fa-shopping-bag mr-2"></i> Orders
+                        </button>
+                        <button id="tabProducts" class="tab-btn py-4 font-semibold text-lg text-gray-600" onclick="switchAdminTab('products')">
+                            <i class="fas fa-box mr-2"></i> Products
+                        </button>
+                        <button id="tabCategories" class="tab-btn py-4 font-semibold text-lg text-gray-600" onclick="switchAdminTab('categories')">
+                            <i class="fas fa-tags mr-2"></i> Categories
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Orders Tab Content -->
+                <div id="ordersTab" class="admin-tab-content py-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Order Management</h2>
+                        <div class="flex gap-4">
+                            <div class="relative">
+                                <input type="text" id="orderSearch" placeholder="Search orders..." 
+                                    class="px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 w-64">
+                                <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                            </div>
+                            <select id="orderStatusFilter" class="px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500">
+                                <option value="">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="ordersList" class="custom-scrollbar" style="max-height: 70vh; overflow-y: auto;">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Products Tab Content -->
+                <div id="productsTab" class="admin-tab-content py-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Product Management</h2>
+                        <button onclick="switchAdminTab('addProduct')" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                            <i class="fas fa-plus mr-2"></i> Add Product
+                        </button>
+                    </div>
+
+                    <div class="flex gap-4 mb-6">
+                        <div class="relative flex-1">
+                            <input type="text" id="adminSearchInput" placeholder="Search products..." 
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500">
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                        <select id="adminCategoryFilter" class="px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500">
+                            <option value="">All Categories</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="sport">Sport</option>
+                            <option value="classic">Classic</option>
+                        </select>
+                    </div>
+
+                    <div id="adminProductsList" class="custom-scrollbar" style="max-height: 70vh; overflow-y: auto;">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Categories Tab Content -->
+                <div id="categoriesTab" class="admin-tab-content py-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Category Management</h2>
+                        <button onclick="showAddCategoryModal()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                            <i class="fas fa-plus mr-2"></i> Add Category
+                        </button>
+                    </div>
+
+                    <div id="categoriesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 custom-scrollbar" style="max-height: 70vh; overflow-y: auto;">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Add Product Tab Content -->
+                <div id="addProductTab" class="admin-tab-content py-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Add New Product</h2>
+                        <button onclick="switchAdminTab('products')" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Back to Products
+                        </button>
+                    </div>
+
+                    <form id="addProductForm" class="space-y-6 custom-scrollbar" style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="productName" class="block text-gray-700 font-semibold mb-2">Product Name *</label>
+                                <input type="text" id="productName" required
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                    placeholder="Enter product name">
+                            </div>
+                            <div>
+                                <label for="productPrice" class="block text-gray-700 font-semibold mb-2">Price (৳) *</label>
+                                <input type="number" id="productPrice" required min="0" step="0.01"
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                    placeholder="Enter price">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="productCategory" class="block text-gray-700 font-semibold mb-2">Category *</label>
+                                <select id="productCategory" required
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500">
+                                    <option value="">Select Category</option>
+                                    <option value="luxury">Luxury</option>
+                                    <option value="sport">Sport</option>
+                                    <option value="classic">Classic</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Product Images *</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="productImageInput"
+                                        class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                        placeholder="Enter image URL">
+                                    <button type="button" onclick="addProductImage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="productDescription" class="block text-gray-700 font-semibold mb-2">Description *</label>
+                            <textarea id="productDescription" required rows="3"
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                placeholder="Enter product description"></textarea>
+                        </div>
+
+                        <!-- Image Gallery -->
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Image Gallery</label>
+                            <div id="productImagesGallery" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                                <p class="text-gray-400 text-center col-span-full py-8">No images added yet. Add your first image above.</p>
+                            </div>
+                        </div>
+
+                        <!-- Features -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-gray-700 font-semibold">Features *</label>
+                                <button type="button" onclick="addFeatureField()" class="text-blue-500 hover:text-blue-700 text-sm">
+                                    <i class="fas fa-plus mr-1"></i> Add Feature
+                                </button>
+                            </div>
+                            <div id="featuresContainer">
+                                <div class="feature-input-group mb-2">
+                                    <input type="text" class="feature-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Enter a feature">
+                                    <button type="button" onclick="removeFeature(this)" class="text-red-500 hover:text-red-700 px-3">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Specifications -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-gray-700 font-semibold">Specifications *</label>
+                                <button type="button" onclick="addSpecField()" class="text-blue-500 hover:text-blue-700 text-sm">
+                                    <i class="fas fa-plus mr-1"></i> Add Specification
+                                </button>
+                            </div>
+                            <div id="specsContainer">
+                                <div class="spec-input-group mb-2">
+                                    <input type="text" class="spec-key w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Key (e.g., Movement)">
+                                    <input type="text" class="spec-value w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Value (e.g., Swiss Quartz)">
+                                    <button type="button" onclick="removeSpec(this)" class="text-red-500 hover:text-red-700 px-3">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                            Add Product
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-playfair text-2xl font-bold">Edit Product</h3>
+                        <button id="closeEditModal" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <form id="editProductForm" class="p-6 space-y-6">
+                    <input type="hidden" id="editProductId">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="editProductName" class="block text-gray-700 font-semibold mb-2">Product Name *</label>
+                            <input type="text" id="editProductName" required
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                placeholder="Enter product name">
+                        </div>
+                        <div>
+                            <label for="editProductPrice" class="block text-gray-700 font-semibold mb-2">Price (৳) *</label>
+                            <input type="number" id="editProductPrice" required min="0" step="0.01"
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                placeholder="Enter price">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="editProductCategory" class="block text-gray-700 font-semibold mb-2">Category *</label>
+                            <select id="editProductCategory" required
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500">
+                                <option value="">Select Category</option>
+                                <option value="luxury">Luxury</option>
+                                <option value="sport">Sport</option>
+                                <option value="classic">Classic</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Product Images *</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="editProductImageInput"
+                                    class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                                    placeholder="Enter image URL">
+                                <button type="button" onclick="addEditProductImage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="editProductDescription" class="block text-gray-700 font-semibold mb-2">Description *</label>
+                        <textarea id="editProductDescription" required rows="3"
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="Enter product description"></textarea>
+                    </div>
+
+                    <!-- Image Gallery -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Image Gallery</label>
+                        <div id="editProductImagesGallery" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                            <p class="text-gray-400 text-center col-span-full py-8">No images added yet. Add your first image above.</p>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-gray-700 font-semibold">Features *</label>
+                            <button type="button" onclick="addEditFeatureField()" class="text-blue-500 hover:text-blue-700 text-sm">
+                                <i class="fas fa-plus mr-1"></i> Add Feature
+                            </button>
+                        </div>
+                        <div id="editFeaturesContainer">
+                            <!-- Features will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Specifications -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-gray-700 font-semibold">Specifications *</label>
+                            <button type="button" onclick="addEditSpecField()" class="text-blue-500 hover:text-blue-700 text-sm">
+                                <i class="fas fa-plus mr-1"></i> Add Specification
+                            </button>
+                        </div>
+                        <div id="editSpecsContainer">
+                            <!-- Specifications will be populated here -->
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                        Update Product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-md w-full">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 id="categoryModalTitle" class="font-playfair text-2xl font-bold">Add Category</h3>
+                        <button onclick="closeCategoryModal()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+                <form id="categoryForm" class="p-6 space-y-4">
+                    <input type="hidden" id="categoryId">
+                    <div>
+                        <label for="categoryName" class="block text-gray-700 font-semibold mb-2">Category ID *</label>
+                        <input type="text" id="categoryName" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="e.g., luxury, sport, classic">
+                        <p class="text-sm text-gray-500 mt-1">Use lowercase letters and hyphens only (no spaces)</p>
+                    </div>
+                    <div>
+                        <label for="categoryDisplayName" class="block text-gray-700 font-semibold mb-2">Display Name *</label>
+                        <input type="text" id="categoryDisplayName" required
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500"
+                            placeholder="e.g., Luxury, Sport, Classic">
+                    </div>
+                    <button type="submit" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                        Save Category
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 O'clock Studio. All rights reserved.</p>
+            <p class="text-sm mt-2 text-gray-400">
+                <a href="#" onclick="event.preventDefault(); showAdminLogin();" class="hover:text-yellow-400">Admin
+                    Login</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+
+    <script>
+        // Firebase configuration and initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyBn2F4D4X4cvadueV0E7-zQp-czHSMTRHs",
+            authDomain: "o-clock-studio.firebaseapp.com",
+            projectId: "o-clock-studio",
+            storageBucket: "o-clock-studio.firebasestorage.app",
+            messagingSenderId: "469431100700",
+            appId: "1:469431100700:web:5761c3d3aaa254744e86d9",
+            measurementId: "G-LD731LG44Y"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const analytics = firebase.analytics();
+
+        // Make Firebase available globally
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        
+        console.log('Firebase initialized successfully!');
+
+        // Product data - will be loaded from Firebase
+        let products = [];
+        let isAdmin = false;
+        let currentUser = null;
+
+        // Default products (fallback if Firebase is not configured)
+        const defaultProducts = [
+            {
+                id: 1,
+                name: "Royal Classic",
+                price: 25000,
+                category: "classic",
+                image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Elegant timepiece with leather strap",
+                features: [
+                    "Genuine leather strap",
+                    "Swiss quartz movement",
+                    "Water resistant up to 50m",
+                    "Sapphire crystal glass",
+                    "Date display function"
+                ],
+                specifications: {
+                    "Movement": "Swiss Quartz",
+                    "Case Material": "Stainless Steel",
+                    "Case Diameter": "42mm",
+                    "Strap Material": "Genuine Leather",
+                    "Water Resistance": "50m",
+                    "Crystal": "Sapphire",
+                    "Warranty": "2 Years"
+                }
+            },
+            {
+                id: 2,
+                name: "Sport Pro",
+                price: 35000,
+                category: "sport",
+                image: "https://th.bing.com/th/id/OIP.2FhYSQT91VIipHlxrqoOzQHaHa?w=188&h=187&c=7&r=0&o=7&cb=ucfimgc2&dpr=1.3&pid=1.7&rm=3",
+                description: "Durable sports watch with chronograph",
+                features: [
+                    "Stainless steel case and bracelet",
+                    "Chronograph functionality",
+                    "Water resistant up to 100m",
+                    "Luminous hands and markers",
+                    "Rotating bezel"
+                ],
+                specifications: {
+                    "Movement": "Japanese Automatic",
+                    "Case Material": "Stainless Steel",
+                    "Case Diameter": "44mm",
+                    "Strap Material": "Stainless Steel",
+                    "Water Resistance": "100m",
+                    "Crystal": "Mineral",
+                    "Warranty": "3 Years"
+                }
+            },
+            {
+                id: 3,
+                name: "Luxury Diamond",
+                price: 125000,
+                category: "luxury",
+                image: "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Premium watch with diamond accents",
+                features: [
+                    "18K gold plated case",
+                    "Diamond hour markers",
+                    "Automatic movement",
+                    "Alligator leather strap",
+                    "Limited edition"
+                ],
+                specifications: {
+                    "Movement": "Swiss Automatic",
+                    "Case Material": "18K Gold Plated",
+                    "Case Diameter": "40mm",
+                    "Strap Material": "Alligator Leather",
+                    "Water Resistance": "30m",
+                    "Crystal": "Sapphire",
+                    "Warranty": "5 Years"
+                }
+            },
+            {
+                id: 4,
+                name: "Minimalist",
+                price: 18000,
+                category: "classic",
+                image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Simple yet sophisticated design",
+                features: [
+                    "Slim profile design",
+                    "Japanese quartz movement",
+                    "Mineral crystal glass",
+                    "Water resistant up to 30m",
+                    "Multiple color options"
+                ],
+                specifications: {
+                    "Movement": "Japanese Quartz",
+                    "Case Material": "Stainless Steel",
+                    "Case Diameter": "38mm",
+                    "Strap Material": "Genuine Leather",
+                    "Water Resistance": "30m",
+                    "Crystal": "Mineral",
+                    "Warranty": "2 Years"
+                }
+            },
+            {
+                id: 5,
+                name: "Diver Elite",
+                price: 45000,
+                category: "sport",
+                image: "https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Professional diving watch",
+                features: [
+                    "Water resistant up to 300m",
+                    "Unidirectional rotating bezel",
+                    "Helium escape valve",
+                    "Luminous markers and hands",
+                    "Stainless steel construction"
+                ],
+                specifications: {
+                    "Movement": "Swiss Automatic",
+                    "Case Material": "Stainless Steel",
+                    "Case Diameter": "43mm",
+                    "Strap Material": "Rubber",
+                    "Water Resistance": "300m",
+                    "Crystal": "Sapphire",
+                    "Warranty": "3 Years"
+                }
+            },
+            {
+                id: 6,
+                name: "Golden Heritage",
+                price: 95000,
+                category: "luxury",
+                image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "18K gold plated masterpiece",
+                features: [
+                    "18K gold plated case and bracelet",
+                    "Automatic mechanical movement",
+                    "Sapphire crystal with anti-reflective coating",
+                    "Exhibition case back",
+                    "Power reserve indicator"
+                ],
+                specifications: {
+                    "Movement": "Swiss Automatic",
+                    "Case Material": "18K Gold Plated",
+                    "Case Diameter": "41mm",
+                    "Strap Material": "Stainless Steel & Gold",
+                    "Water Resistance": "50m",
+                    "Crystal": "Sapphire",
+                    "Warranty": "5 Years"
+                }
+            },
+            {
+                id: 7,
+                name: "Urban Explorer",
+                price: 28000,
+                category: "sport",
+                image: "https://images.unsplash.com/photo-1622434641406-a158123450f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Perfect for city adventures",
+                features: [
+                    "Shock resistant construction",
+                    "Dual time zone display",
+                    "Nylon strap with leather lining",
+                    "Water resistant up to 100m",
+                    "Date and day display"
+                ],
+                specifications: {
+                    "Movement": "Japanese Quartz",
+                    "Case Material": "Stainless Steel",
+                    "Case Diameter": "42mm",
+                    "Strap Material": "Nylon & Leather",
+                    "Water Resistance": "100m",
+                    "Crystal": "Mineral",
+                    "Warranty": "2 Years"
+                }
+            },
+            {
+                id: 8,
+                name: "Vintage Spirit",
+                price: 32000,
+                category: "classic",
+                image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Retro-inspired timeless design",
+                features: [
+                    "Vintage-inspired dial design",
+                    "Hand-wound mechanical movement",
+                    "Domed mineral crystal",
+                    "Genuine leather strap",
+                    "Limited production run"
+                ],
+                specifications: {
+                    "Movement": "Hand-wound Mechanical",
+                    "Case Material": "Stainless Steel",
+                    "Case Diameter": "39mm",
+                    "Strap Material": "Genuine Leather",
+                    "Water Resistance": "30m",
+                    "Crystal": "Mineral",
+                    "Warranty": "2 Years"
+                }
+            }
+        ];
+
+        let cart = [];
+        let wishlist = [];
+        let currentFilter = 'all';
+        let currentProductDetail = null;
+        let currentSlide = 0;
+        let currentSort = 'name';
+        let carouselInterval;
+        let orders = [];
+        let adminProductsList = [];
+        let categoriesList = [];
+        let productImages = [];
+        let editProductImages = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            loadFromLocalStorage();
+            checkAuthState();
+            loadProducts();
+            updateCartCount();
+            updateWishlistCount();
+
+            // Set up event listeners
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            document.getElementById('mobileSearchInput').addEventListener('input', handleSearch);
+            document.getElementById('searchButton').addEventListener('click', handleSearch);
+            document.getElementById('mobileSearchButton').addEventListener('click', handleSearch);
+            document.getElementById('mobileMenuButton').addEventListener('click', toggleMobileMenu);
+
+            // Order tracking event listeners
+            document.getElementById('trackOrderBtn').addEventListener('click', showOrderTrackingModal);
+            document.getElementById('closeOrderTracking').addEventListener('click', closeOrderTrackingModal);
+            document.getElementById('trackOrderButton').addEventListener('click', trackOrderByPhone);
+
+            // Admin event listeners
+            document.getElementById('adminLoginForm')?.addEventListener('submit', handleAdminLogin);
+            document.getElementById('closeAdminLogin')?.addEventListener('click', () => document.getElementById('adminLoginModal').classList.add('hidden'));
+            document.getElementById('addProductForm')?.addEventListener('submit', handleAddProduct);
+            document.getElementById('editProductForm')?.addEventListener('submit', handleUpdateProduct);
+            document.getElementById('closeEditModal')?.addEventListener('click', closeEditModal);
+
+            // Admin search and filter
+            document.getElementById('adminSearchInput')?.addEventListener('input', filterAdminProducts);
+            document.getElementById('adminCategoryFilter')?.addEventListener('change', filterAdminProducts);
+
+            // Order search and filter
+            document.getElementById('orderSearch')?.addEventListener('input', filterOrders);
+            document.getElementById('orderStatusFilter')?.addEventListener('change', filterOrders);
+
+            // Category form
+            document.getElementById('categoryForm')?.addEventListener('submit', handleCategorySubmit);
+
+            // Filter buttons
+            document.getElementById('filterAll').addEventListener('click', () => filterProducts('all'));
+            document.getElementById('filterLuxury').addEventListener('click', () => filterProducts('luxury'));
+            document.getElementById('filterSport').addEventListener('click', () => filterProducts('sport'));
+            document.getElementById('filterClassic').addEventListener('click', () => filterProducts('classic'));
+
+            // Sort buttons
+            document.getElementById('sortName').addEventListener('click', () => sortProducts('name'));
+            document.getElementById('sortPriceLow').addEventListener('click', () => sortProducts('price-low'));
+            document.getElementById('sortPriceHigh').addEventListener('click', () => sortProducts('price-high'));
+            document.getElementById('sortNewest').addEventListener('click', () => sortProducts('newest'));
+
+            // Modal close buttons
+            document.getElementById('closeProductDetail').addEventListener('click', closeProductDetail);
+            document.getElementById('closeCart').addEventListener('click', toggleCart);
+            document.getElementById('closeWishlist').addEventListener('click', toggleWishlist);
+            document.getElementById('closeCheckout').addEventListener('click', closeCheckout);
+
+            // Action buttons
+            document.getElementById('wishlistButton').addEventListener('click', toggleWishlist);
+            document.getElementById('cartButton').addEventListener('click', toggleCart);
+            document.getElementById('addToWishlistDetail').addEventListener('click', addToWishlistFromDetail);
+            document.getElementById('addToCartDetail').addEventListener('click', addToCartFromDetail);
+            document.getElementById('proceedToCheckout').addEventListener('click', proceedToCheckout);
+
+            // Form submission
+            document.getElementById('checkoutForm').addEventListener('submit', handleCheckoutSubmit);
+
+            // Filter toggle button
+            document.getElementById('filterToggle').addEventListener('click', toggleFilterSection);
+
+            // Close modals when clicking outside
+            setupModalCloseListeners();
+
+            // Start banner carousel
+            startBannerCarousel();
+        });
+
+        // ========== ORDER TRACKING FUNCTIONS ==========
+
+        // Show order tracking modal
+        function showOrderTrackingModal() {
+            document.getElementById('orderTrackingModal').classList.remove('hidden');
+            document.getElementById('trackingResult').classList.add('hidden');
+            document.getElementById('trackingPhoneNumber').value = '';
+        }
+
+        // Close order tracking modal
+        function closeOrderTrackingModal() {
+            document.getElementById('orderTrackingModal').classList.add('hidden');
+        }
+
+        // Track order by phone number
+        function trackOrderByPhone() {
+            const phoneNumber = document.getElementById('trackingPhoneNumber').value.trim();
+            const errorElement = document.getElementById('trackingPhoneError');
+            const resultElement = document.getElementById('trackingResult');
+
+            // Reset
+            errorElement.classList.add('hidden');
+            resultElement.classList.add('hidden');
+
+            // Validate phone number
+            const phoneRegex = /^(01|8801|\+8801)[3-9]\d{8}$/;
+            const cleanPhone = phoneNumber.replace(/\s+/g, '');
+
+            if (!phoneRegex.test(cleanPhone)) {
+                errorElement.textContent = 'Please enter a valid Bangladeshi phone number';
+                errorElement.classList.remove('hidden');
+                return;
+            }
+
+            // Find orders by phone number
+            const customerOrders = orders.filter(order => {
+                const orderPhone = order.customer.phone.replace(/\s+/g, '');
+                return orderPhone === cleanPhone;
+            });
+
+            if (customerOrders.length === 0) {
+                errorElement.textContent = 'No orders found for this phone number.';
+                errorElement.classList.remove('hidden');
+                return;
+            }
+
+            // Display orders list with scrolling
+            displayOrdersList(customerOrders);
+            resultElement.classList.remove('hidden');
+        }
+
+        // Display orders list for tracking with scrolling
+        function displayOrdersList(orders) {
+            const resultElement = document.getElementById('trackingResult');
+            
+            resultElement.innerHTML = `
+                <h4 class="font-semibold mb-4">Your Orders</h4>
+                <p class="text-sm text-gray-600 mb-4">Found ${orders.length} order(s) for your phone number.</p>
+                <div class="tracking-results-container custom-scrollbar">
+                    <div id="ordersListContainer" class="space-y-3">
+                        ${orders.map(order => `
+                            <div class="order-list-item" onclick="showOrderTrackingDetails('${order.id}')">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold">Order #${order.id}</p>
+                                        <p class="text-sm text-gray-600">${new Date(order.timestamp).toLocaleDateString()}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="status-badge status-${order.status}">${order.status}</span>
+                                        <p class="font-semibold mt-1">৳${order.total.toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div id="orderTrackingDetails" class="mt-6 hidden">
+                        <!-- Order tracking details will be displayed here -->
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show tracking details for a specific order
+        function showOrderTrackingDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            // Remove active class from all order items
+            document.querySelectorAll('.order-list-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked order
+            event.currentTarget.classList.add('active');
+
+            const detailsContainer = document.getElementById('orderTrackingDetails');
+            
+            // Define tracking steps
+            const steps = [
+                { id: 'pending', label: 'Order Placed', icon: 'fa-shopping-cart' },
+                { id: 'confirmed', label: 'Confirmed', icon: 'fa-check-circle' },
+                { id: 'shipped', label: 'Shipped', icon: 'fa-truck' },
+                { id: 'delivered', label: 'Delivered', icon: 'fa-home' }
+            ];
+
+            // Find current step index
+            const currentStepIndex = steps.findIndex(step => step.id === order.status);
+            
+            // Generate tracking steps HTML
+            const stepsHTML = steps.map((step, index) => {
+                let stepClass = '';
+                if (index < currentStepIndex) {
+                    stepClass = 'completed';
+                } else if (index === currentStepIndex) {
+                    stepClass = 'active';
+                }
+
+                return `
+                    <div class="tracking-step ${stepClass}">
+                        <div class="step-icon">
+                            <i class="fas ${step.icon}"></i>
+                        </div>
+                        <div class="step-label">${step.label}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Generate tracking details HTML
+            const detailsHTML = `
+                <div class="tracking-details">
+                    <h4 class="font-semibold mb-2">Order Details</h4>
+                    <p><strong>Order ID:</strong> ${order.id}</p>
+                    <p><strong>Customer:</strong> ${order.customer.name}</p>
+                    <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                    <p><strong>Order Date:</strong> ${new Date(order.timestamp).toLocaleString()}</p>
+                    <p><strong>Total Amount:</strong> ৳${order.total.toLocaleString()}</p>
+                    ${order.trackingNumber ? `<p><strong>Tracking Number:</strong> ${order.trackingNumber}</p>` : ''}
+                    ${order.estimatedDelivery ? `<p><strong>Estimated Delivery:</strong> ${new Date(order.estimatedDelivery).toLocaleDateString()}</p>` : ''}
+                    
+                    <h5 class="font-semibold mt-4 mb-2">Order Items</h5>
+                    <div class="space-y-2">
+                        ${order.items.map(item => `
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <div class="flex items-center gap-2">
+                                    <img src="${item.image}" alt="${item.name}" class="w-10 h-10 object-cover rounded">
+                                    <span>${item.name} x${item.quantity}</span>
+                                </div>
+                                <span>৳${(item.price * item.quantity).toLocaleString()}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            detailsContainer.innerHTML = `
+                <h4 class="font-semibold mb-4">Order Tracking - #${order.id}</h4>
+                <div class="tracking-steps">
+                    ${stepsHTML}
+                </div>
+                ${detailsHTML}
+            `;
+            detailsContainer.classList.remove('hidden');
+        }
+
+        // Banner carousel functions
+        function startBannerCarousel() {
+            carouselInterval = setInterval(nextBannerSlide, 5000);
+        }
+
+        function nextBannerSlide() {
+            const slides = document.querySelectorAll('.banner-slide');
+            const indicators = document.querySelectorAll('.banner-indicator');
+            
+            // Hide current slide
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            
+            // Move to next slide
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // Show next slide
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+
+        function changeBannerSlide(index) {
+            const slides = document.querySelectorAll('.banner-slide');
+            const indicators = document.querySelectorAll('.banner-indicator');
+            
+            // Hide current slide
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            
+            // Set new slide
+            currentSlide = index;
+            
+            // Show new slide
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+            
+            // Reset interval
+            clearInterval(carouselInterval);
+            startBannerCarousel();
+        }
+
+        // Toggle filter section on mobile
+        function toggleFilterSection() {
+            const filterSection = document.getElementById('filterSection');
+            const filterToggle = document.getElementById('filterToggle');
+
+            filterSection.classList.toggle('active');
+            filterToggle.classList.toggle('active');
+        }
+
+        // Setup modal close listeners
+        function setupModalCloseListeners() {
+            const modals = [
+                'productDetailModal',
+                'cartModal',
+                'wishlistModal',
+                'checkoutModal',
+                'orderTrackingModal'
+            ];
+
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        if (modalId === 'productDetailModal') closeProductDetail();
+                        if (modalId === 'cartModal') toggleCart();
+                        if (modalId === 'wishlistModal') toggleWishlist();
+                        if (modalId === 'checkoutModal') closeCheckout();
+                        if (modalId === 'orderTrackingModal') closeOrderTrackingModal();
+                    }
+                });
+            });
+        }
+
+        // Load products from Firebase or use default
+        async function loadProducts() {
+            showLoadingState();
+
+            try {
+                if (window.firebaseDb) {
+                    // Load from Firebase using CDN syntax
+                    const productsRef = firebase.firestore().collection('products');
+                    const q = productsRef.orderBy('name');
+                    const querySnapshot = await q.get();
+
+                    products = [];
+                    querySnapshot.forEach((doc) => {
+                        products.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    // If no products in Firebase, use defaults
+                    if (products.length === 0) {
+                        products = defaultProducts;
+                    }
+                } else {
+                    // Use default products
+                    products = defaultProducts;
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                products = defaultProducts;
+            }
+
+            // Render products
+            renderProducts();
+        }
+
+        // Render products to the grid
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            let filteredProducts = getFilteredProducts();
+
+            // Sort products
+            filteredProducts = sortProductList(filteredProducts);
+
+            // Update product count
+            document.getElementById('productCount').textContent = filteredProducts.length;
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = '';
+                document.getElementById('noResults').classList.remove('hidden');
+                hideLoadingState();
+                return;
+            }
+
+            document.getElementById('noResults').classList.add('hidden');
+
+            grid.innerHTML = filteredProducts.map(product => {
+                // Support both single image and images array
+                const mainImage = (product.images && product.images.length > 0) ? product.images[0] : product.image;
+                return `
+                <div class="watch-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="viewProductDetail('${product.id}')">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="${mainImage}" alt="${product.name}" class="w-full h-full object-cover" loading="lazy">
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-semibold pulse-badge">
+                            ${product.category}
+                        </div>
+                        <button onclick="event.stopPropagation(); toggleWishlistItem('${product.id}')" class="absolute top-2 left-2 bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-gray-100 transition">
+                            <i class="fas fa-heart ${wishlist.some(id => id == product.id) ? 'text-red-500' : 'text-gray-400'}"></i>
+                            <span class="sr-only">Add to Wishlist</span>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-sm mb-1 truncate">${product.name}</h3>
+                        <p class="text-gray-600 text-xs mb-2 truncate">${product.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-yellow-600">৳${product.price.toLocaleString()}</span>
+                            <button onclick="event.stopPropagation(); addToCart('${product.id}')" class="bg-gray-900 text-white px-3 py-1 rounded text-sm hover:bg-gray-800 transition">
+                                <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                                <span class="sr-only">Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            hideLoadingState();
+        }
+
+        // Sort products
+        function sortProducts(sortType) {
+            currentSort = sortType;
+
+            // Update sort button styles
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            loadProducts();
+        }
+
+        // Sort product list based on current sort type
+        function sortProductList(products) {
+            switch (currentSort) {
+                case 'name':
+                    return products.sort((a, b) => a.name.localeCompare(b.name));
+                case 'price-low':
+                    return products.sort((a, b) => a.price - b.price);
+                case 'price-high':
+                    return products.sort((a, b) => b.price - a.price);
+                case 'newest':
+                    return products.sort((a, b) => b.id - a.id);
+                default:
+                    return products;
+            }
+        }
+
+        // Get filtered products based on current filters
+        function getFilteredProducts() {
+            let filtered = currentFilter === 'all'
+                ? products
+                : products.filter(p => p.category === currentFilter);
+
+            // Apply search filter
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase() ||
+                document.getElementById('mobileSearchInput').value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(p =>
+                    p.name.toLowerCase().includes(searchTerm) ||
+                    p.description.toLowerCase().includes(searchTerm) ||
+                    p.category.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            return filtered;
+        }
+
+        // Filter products
+        function filterProducts(category) {
+            currentFilter = category;
+
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-gray-900', 'text-white');
+                btn.classList.add('hover:bg-gray-200');
+            });
+            event.target.classList.add('bg-gray-900', 'text-white');
+            event.target.classList.remove('hover:bg-gray-200');
+
+            loadProducts();
+
+            // Close filter section on mobile after selection
+            if (window.innerWidth < 768) {
+                toggleFilterSection();
+            }
+        }
+
+        // Handle search
+        function handleSearch() {
+            loadProducts();
+        }
+
+        // Show loading state
+        function showLoadingState() {
+            document.getElementById('loadingState').classList.remove('hidden');
+        }
+
+        // Hide loading state
+        function hideLoadingState() {
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+
+        // View product details
+        function viewProductDetail(id) {
+            const product = products.find(p => p.id == id);
+            if (product) {
+                currentProductDetail = product;
+
+                // Get images (support both single image and images array)
+                const productImages = (product.images && Array.isArray(product.images) && product.images.length > 0)
+                    ? product.images
+                    : (product.image ? [product.image] : []);
+
+                document.getElementById('detailProductName').textContent = product.name;
+                document.getElementById('detailProductTitle').textContent = product.name;
+
+                // Set main image
+                const mainImage = productImages[0] || product.image;
+                document.getElementById('detailProductImage').src = mainImage;
+                document.getElementById('detailProductImage').alt = product.name;
+
+                // Show image gallery thumbnails if multiple images
+                const galleryDiv = document.getElementById('detailProductImageGallery');
+                if (productImages.length > 1) {
+                    galleryDiv.innerHTML = productImages.map((img, index) => `
+                        <img src="${img}" alt="${product.name} - Image ${index + 1}" 
+                             class="w-full h-20 object-cover rounded-lg cursor-pointer border-2 ${index === 0 ? 'border-yellow-500' : 'border-transparent hover:border-gray-300'}" 
+                             onclick="changeDetailImage('${img}')"
+                             onmouseenter="changeDetailImage('${img}')">
+                    `).join('');
+                } else {
+                    galleryDiv.innerHTML = '';
+                }
+
+                document.getElementById('detailProductDescription').textContent = product.description;
+                document.getElementById('detailProductPrice').textContent = `৳${product.price.toLocaleString()}`;
+                document.getElementById('detailProductCategory').textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+
+                // Populate specifications
+                const specsDiv = document.getElementById('detailProductSpecs');
+                specsDiv.innerHTML = '';
+                for (const [key, value] of Object.entries(product.specifications)) {
+                    const specItem = document.createElement('div');
+                    specItem.className = 'spec-item';
+                    specItem.innerHTML = `
+                        <div class="font-semibold text-gray-700">${key}</div>
+                        <div class="text-sm text-gray-600 mt-1">${value}</div>
+                    `;
+                    specsDiv.appendChild(specItem);
+                }
+
+                // Populate features
+                const featuresList = document.getElementById('detailProductFeatures');
+                featuresList.innerHTML = product.features.map(feature =>
+                    `<li>${feature}</li>`
+                ).join('');
+
+                document.getElementById('productDetailModal').classList.remove('hidden');
+            }
+        }
+
+        // Change detail image
+        function changeDetailImage(imageUrl) {
+            document.getElementById('detailProductImage').src = imageUrl;
+
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('#detailProductImageGallery img');
+            thumbnails.forEach((thumb, index) => {
+                if (thumb.src === imageUrl || thumb.getAttribute('onclick').includes(imageUrl)) {
+                    thumb.classList.remove('border-transparent');
+                    thumb.classList.add('border-yellow-500');
+                } else {
+                    thumb.classList.remove('border-yellow-500');
+                    thumb.classList.add('border-transparent');
+                }
+            });
+        }
+
+        // Close product detail
+        function closeProductDetail() {
+            document.getElementById('productDetailModal').classList.add('hidden');
+            currentProductDetail = null;
+        }
+
+        // Add to cart from product detail
+        function addToCartFromDetail() {
+            if (currentProductDetail) {
+                addToCart(currentProductDetail.id);
+            }
+        }
+
+        // Add to wishlist from product detail
+        function addToWishlistFromDetail() {
+            if (currentProductDetail) {
+                toggleWishlistItem(currentProductDetail.id);
+            }
+        }
+
+        // Add to cart - FIXED
+        function addToCart(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) {
+                showNotification('Product not found!', 'error');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id == productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                // Get the main image (support both single image and images array)
+                const mainImage = (product.images && product.images.length > 0)
+                    ? product.images[0]
+                    : product.image;
+
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: mainImage,
+                    quantity: 1
+                });
+            }
+
+            updateCartCount();
+            saveToLocalStorage();
+            showNotification('Product added to cart!', 'success');
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        // Toggle cart modal - ENHANCED
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            const isHidden = modal.classList.contains('hidden');
+
+            if (isHidden) {
+                displayCartItems();
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.remove('active');
+        }
+
+        // Display cart items - FIXED
+        function displayCartItems() {
+            const cartItemsDiv = document.getElementById('cartItems');
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p class="text-center text-gray-500 py-8">Your cart is empty</p>';
+                document.getElementById('cartTotal').textContent = '৳0';
+                return;
+            }
+
+            cartItemsDiv.innerHTML = cart.map(item => {
+                // Handle missing images
+                const itemImage = item.image || 'https://via.placeholder.com/80x80?text=No+Image';
+
+                return `
+                    <div class="flex items-center justify-between mb-4 p-4 bg-gray-50 rounded-lg cart-item">
+                        <div class="flex items-center space-x-4">
+                            <img src="${itemImage}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-semibold">${item.name}</h4>
+                                <p class="text-gray-600">৳${item.price.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity('${item.id}', -1)" class="bg-gray-200 w-8 h-8 rounded-full hover:bg-gray-300 transition quantity-btn">
+                                <i class="fas fa-minus text-sm" aria-hidden="true"></i>
+                                <span class="sr-only">Decrease Quantity</span>
+                            </button>
+                            <span class="w-8 text-center font-semibold">${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', 1)" class="bg-gray-200 w-8 h-8 rounded-full hover:bg-gray-300 transition quantity-btn">
+                                <i class="fas fa-plus text-sm" aria-hidden="true"></i>
+                                <span class="sr-only">Increase Quantity</span>
+                            </button>
+                            <button onclick="removeFromCart('${item.id}')" class="ml-4 text-red-500 hover:text-red-700 transition remove-btn">
+                                <i class="fas fa-trash" aria-hidden="true"></i>
+                                <span class="sr-only">Remove Item</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `৳${total.toLocaleString()}`;
+        }
+
+        // Update quantity - FIXED
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id == productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    displayCartItems();
+                    updateCartCount();
+                    saveToLocalStorage();
+                }
+            }
+        }
+
+        // Remove from cart - FIXED
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id != productId);
+            displayCartItems();
+            updateCartCount();
+            saveToLocalStorage();
+            showNotification('Product removed from cart', 'info');
+        }
+
+        // Clear cart function (useful for after checkout)
+        function clearCart() {
+            cart = [];
+            updateCartCount();
+            saveToLocalStorage();
+        }
+
+        // Toggle wishlist item
+        function toggleWishlistItem(productId) {
+            const index = wishlist.findIndex(id => id == productId);
+            if (index === -1) {
+                wishlist.push(productId);
+                showNotification('Added to wishlist!', 'success');
+            } else {
+                wishlist.splice(index, 1);
+                showNotification('Removed from wishlist!', 'info');
+            }
+
+            updateWishlistCount();
+            saveToLocalStorage();
+            loadProducts(); // Refresh to update heart icons
+        }
+
+        // Update wishlist count
+        function updateWishlistCount() {
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+        }
+
+        // Toggle wishlist modal
+        function toggleWishlist() {
+            const modal = document.getElementById('wishlistModal');
+            modal.classList.toggle('hidden');
+
+            if (!modal.classList.contains('hidden')) {
+                displayWishlistItems();
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.remove('active');
+        }
+
+        // Display wishlist items
+        function displayWishlistItems() {
+            const wishlistItemsDiv = document.getElementById('wishlistItems');
+
+            if (wishlist.length === 0) {
+                wishlistItemsDiv.innerHTML = '<p class="text-center text-gray-500">Your wishlist is empty</p>';
+                return;
+            }
+
+            const wishlistProducts = products.filter(p => wishlist.some(id => id == p.id));
+
+            wishlistItemsDiv.innerHTML = wishlistProducts.map(product => `
+                <div class="flex items-center justify-between mb-4 p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-lg">
+                        <div>
+                            <h4 class="font-semibold">${product.name}</h4>
+                            <p class="text-gray-600">৳${product.price.toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="addToCart(${product.id})" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                            <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                            <span class="sr-only">Add to Cart</span>
+                        </button>
+                        <button onclick="toggleWishlistItem(${product.id})" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash" aria-hidden="true"></i>
+                            <span class="sr-only">Remove from Wishlist</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Proceed to checkout - ENHANCED
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'warning');
+                return;
+            }
+
+            document.getElementById('cartModal').classList.add('hidden');
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Display order summary
+            const summaryDiv = document.getElementById('orderSummary');
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            summaryDiv.innerHTML = cart.map(item => `
+                <div class="flex justify-between mb-2 text-sm">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>৳${(item.price * item.quantity).toLocaleString()}</span>
+                </div>
+            `).join('');
+
+            summaryDiv.innerHTML += `
+                <div class="border-t pt-2 mt-2">
+                    <div class="flex justify-between font-bold">
+                        <span>Total:</span>
+                        <span class="text-yellow-600">৳${total.toLocaleString()}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Enhanced close checkout
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // ENHANCED WhatsApp Message Creation
+        function createWhatsAppMessage(fullName, phoneNumber, address) {
+            let message = "🎯 *ORDER - O'clock Studio* 🎯\n\n";
+            message += "👤 *Customer Information:*\n";
+            message += `📝 Name: ${fullName}\n`;
+            message += `📱 Phone: ${phoneNumber}\n`;
+            message += `📍 Address: ${address}\n\n`;
+            message += "🛍️ *Order Details:*\n";
+
+            cart.forEach(item => {
+                message += `• ${item.name} x${item.quantity} = ৳${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\n💰 *Total Amount: ৳${total.toLocaleString()}*\n\n`;
+            message += "⏰ *Order Time: " + new Date().toLocaleString() + "*\n";
+            message += "🔔 Please confirm this order ASAP";
+
+            return message;
+        }
+
+        // ENHANCED WhatsApp Message Sending
+        function sendWhatsAppMessage(fullName, phoneNumber, address) {
+            const message = createWhatsAppMessage(fullName, phoneNumber, address);
+            
+            // Clean the phone number (remove spaces, dashes, etc.)
+            const cleanPhone = phoneNumber.replace(/[\s\-\(\)\+]/g, '');
+            
+            // Ensure the number has the correct format for WhatsApp
+            let whatsappNumber;
+            if (cleanPhone.startsWith('880')) {
+                whatsappNumber = cleanPhone; // Already in correct format
+            } else if (cleanPhone.startsWith('01')) {
+                whatsappNumber = '880' + cleanPhone.substring(1); // Convert to international format
+            } else if (cleanPhone.startsWith('+880')) {
+                whatsappNumber = cleanPhone.substring(1); // Remove the +
+            } else {
+                // Default to the store's WhatsApp number
+                whatsappNumber = "8801577078101";
+            }
+
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+
+            // Create WhatsApp URL - using web.whatsapp.com which is more reliable
+            const whatsappUrl = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+            
+            // Alternative URL for mobile devices
+            const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+            // Store debug info
+            window.debugInfo = {
+                url: whatsappUrl,
+                mobileUrl: whatsappMobileUrl,
+                message: message,
+                encodedMessage: encodedMessage,
+                phoneNumber: whatsappNumber
+            };
+
+            // Try to detect if user is on mobile
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // Open WhatsApp based on device type
+            try {
+                if (isMobile) {
+                    window.location.href = whatsappMobileUrl;
+                } else {
+                    window.open(whatsappUrl, '_blank', 'width=600,height=700');
+                }
+
+                // Show success message
+                showNotification('Opening WhatsApp... Please check if the message is properly loaded.', 'info');
+
+                // Save order to admin panel
+                saveOrderToAdmin(fullName, phoneNumber, address, message);
+
+            } catch (error) {
+                console.error('WhatsApp error:', error);
+                showNotification('There was an issue opening WhatsApp. Please try again.', 'error');
+                
+                // Fallback: Show the message for manual copy
+                setTimeout(() => {
+                    if (confirm('Could not open WhatsApp automatically. Would you like to copy the order details to manually send?')) {
+                        navigator.clipboard.writeText(message).then(() => {
+                            showNotification('Order details copied to clipboard! You can now paste it in WhatsApp.', 'success');
+                        }).catch(() => {
+                            // Fallback if clipboard API fails
+                            const textArea = document.createElement('textarea');
+                            textArea.value = message;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            showNotification('Order details copied to clipboard! You can now paste it in WhatsApp.', 'success');
+                        });
+                    }
+                }, 1000);
+            }
+        }
+
+        // Save order to admin panel
+        function saveOrderToAdmin(fullName, phoneNumber, address, message) {
+            const order = {
+                id: Date.now().toString(),
+                customer: {
+                    name: fullName,
+                    phone: phoneNumber,
+                    address: address
+                },
+                items: [...cart],
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                status: 'pending',
+                timestamp: new Date().toISOString(),
+                message: message,
+                // Add tracking information
+                trackingNumber: generateTrackingNumber(),
+                estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+                // Add discount field for invoice
+                discount: 0
+            };
+
+            // Add to orders array
+            orders.push(order);
+
+            // Save to localStorage
+            localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
+
+            // If admin is logged in and on orders tab, refresh the orders list
+            if (isAdmin && document.getElementById('ordersTab') && !document.getElementById('ordersTab').classList.contains('hidden')) {
+                loadOrders();
+            }
+        }
+
+        // Generate tracking number
+        function generateTrackingNumber() {
+            return 'OCS' + Date.now().toString().slice(-8);
+        }
+
+        // Enhanced checkout form submission
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const address = document.getElementById('address').value;
+
+            // Reset error messages
+            document.getElementById('fullNameError').classList.add('hidden');
+            document.getElementById('phoneError').classList.add('hidden');
+            document.getElementById('addressError').classList.add('hidden');
+
+            let isValid = true;
+
+            // Validate full name
+            if (!fullName.trim()) {
+                document.getElementById('fullNameError').classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Validate phone number (Bangladesh format)
+            const phoneRegex = /^(01|8801|\+8801)[3-9]\d{8}$/;
+            const cleanPhone = phoneNumber.replace(/\s+/g, '');
+
+            if (!phoneRegex.test(cleanPhone)) {
+                document.getElementById('phoneError').classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Validate address
+            if (!address.trim()) {
+                document.getElementById('addressError').classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Send WhatsApp message
+            sendWhatsAppMessage(fullName, phoneNumber, address);
+
+            // Clear cart and close modal after a delay
+            setTimeout(() => {
+                clearCart();
+                closeCheckout();
+                showNotification('Order sent successfully! We will contact you soon.', 'success');
+            }, 2000);
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => {
+                notification.classList.add('fade-out');
+                setTimeout(() => notification.remove(), 300);
+            });
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} fade-in`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+                <button onclick="this.parentElement.classList.add('fade-out'); setTimeout(() => this.parentElement.remove(), 300)" class="ml-2" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            document.body.appendChild(notification);
+
+            // Different durations based on type
+            let duration = 3000; // Default 3 seconds
+            if (type === 'error') {
+                duration = 4000; // Errors need more time to read
+            } else if (type === 'success') {
+                duration = 2500; // Success messages are quick
+            } else if (type === 'info') {
+                duration = 3000; // Info messages
+            } else if (type === 'warning') {
+                duration = 3500; // Warnings
+            }
+
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                setTimeout(() => notification.remove(), 300);
+            }, duration);
+        }
+
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.remove('active');
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Save to local storage
+        function saveToLocalStorage() {
+            localStorage.setItem('oclockStudioCart', JSON.stringify(cart));
+            localStorage.setItem('oclockStudioWishlist', JSON.stringify(wishlist));
+            localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
+        }
+
+        // Load from local storage
+        function loadFromLocalStorage() {
+            const savedCart = localStorage.getItem('oclockStudioCart');
+            const savedWishlist = localStorage.getItem('oclockStudioWishlist');
+            const savedOrders = localStorage.getItem('oclockStudioOrders');
+
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+
+            if (savedWishlist) {
+                wishlist = JSON.parse(savedWishlist);
+            }
+
+            if (savedOrders) {
+                orders = JSON.parse(savedOrders);
+            }
+        }
+
+        // ========== ADMIN FUNCTIONS ==========
+
+        // Check authentication state
+        async function checkAuthState() {
+            if (!window.firebaseAuth) return;
+
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    isAdmin = true;
+                    currentUser = user;
+                    document.getElementById('adminButton').classList.remove('hidden');
+                } else {
+                    isAdmin = false;
+                    currentUser = null;
+                    document.getElementById('adminButton').classList.add('hidden');
+                    hideAdminPanel();
+                }
+            });
+        }
+
+        // Show admin login modal
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+        }
+
+        // Handle admin login
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+
+            if (!window.firebaseAuth) {
+                showNotification('Firebase is not configured. Please configure Firebase first.', 'error');
+                return;
+            }
+
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorElement = document.getElementById('adminLoginError');
+
+            try {
+                await firebase.auth().signInWithEmailAndPassword(email, password);
+
+                document.getElementById('adminLoginModal').classList.add('hidden');
+                showNotification('Login successful!', 'success');
+                showAdminPanel();
+            } catch (error) {
+                errorElement.textContent = error.message;
+                errorElement.classList.remove('hidden');
+                showNotification('Login failed: ' + error.message, 'error');
+            }
+        }
+
+        // Logout admin
+        async function logoutAdmin() {
+            if (!window.firebaseAuth) return;
+
+            try {
+                await firebase.auth().signOut();
+                showNotification('Logged out successfully', 'success');
+            } catch (error) {
+                showNotification('Logout failed: ' + error.message, 'error');
+            }
+        }
+
+        // Show admin panel
+        function showAdminPanel() {
+            // Hide main content
+            const mainContent = document.querySelector('header').parentElement;
+            const children = Array.from(mainContent.children);
+            children.forEach(child => {
+                if (child.id !== 'adminPanel' && child.id !== 'adminLoginModal' && child.id !== 'editProductModal' && child.id !== 'categoryModal') {
+                    child.style.display = 'none';
+                }
+            });
+            document.getElementById('adminPanel').classList.remove('hidden');
+            switchAdminTab('orders'); // Start with Orders tab
+        }
+
+        // Hide admin panel
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            // Show main content
+            const mainContent = document.querySelector('header').parentElement;
+            const children = Array.from(mainContent.children);
+            children.forEach(child => {
+                if (child.id !== 'adminPanel' && child.id !== 'adminLoginModal' && child.id !== 'editProductModal' && child.id !== 'categoryModal') {
+                    child.style.display = '';
+                }
+            });
+        }
+
+        // Switch admin tabs
+        function switchAdminTab(tab) {
+            // Reset all tabs
+            document.getElementById('ordersTab').classList.add('hidden');
+            document.getElementById('productsTab').classList.add('hidden');
+            document.getElementById('categoriesTab').classList.add('hidden');
+            document.getElementById('addProductTab').classList.add('hidden');
+
+            document.getElementById('tabOrders').classList.remove('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+            document.getElementById('tabProducts').classList.remove('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+            document.getElementById('tabCategories').classList.remove('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+
+            document.getElementById('tabOrders').classList.add('text-gray-600');
+            document.getElementById('tabProducts').classList.add('text-gray-600');
+            document.getElementById('tabCategories').classList.add('text-gray-600');
+
+            if (tab === 'orders') {
+                document.getElementById('ordersTab').classList.remove('hidden');
+                document.getElementById('tabOrders').classList.add('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+                document.getElementById('tabOrders').classList.remove('text-gray-600');
+                loadOrders();
+            } else if (tab === 'products') {
+                document.getElementById('productsTab').classList.remove('hidden');
+                document.getElementById('tabProducts').classList.add('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+                document.getElementById('tabProducts').classList.remove('text-gray-600');
+                loadAdminProducts();
+            } else if (tab === 'categories') {
+                document.getElementById('categoriesTab').classList.remove('hidden');
+                document.getElementById('tabCategories').classList.add('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+                document.getElementById('tabCategories').classList.remove('text-gray-600');
+                loadCategories();
+            } else if (tab === 'addProduct') {
+                document.getElementById('addProductTab').classList.remove('hidden');
+                document.getElementById('tabProducts').classList.add('active', 'border-b-2', 'border-yellow-500', 'text-yellow-600');
+                document.getElementById('tabProducts').classList.remove('text-gray-600');
+                loadCategoryDropdowns();
+            }
+        }
+
+        // Load orders for admin
+        function loadOrders() {
+            const ordersListDiv = document.getElementById('ordersList');
+            
+            if (orders.length === 0) {
+                ordersListDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No orders found.</p>';
+                return;
+            }
+
+            ordersListDiv.innerHTML = orders.map(order => {
+                const statusClass = `status-${order.status}`;
+                const formattedDate = new Date(order.timestamp).toLocaleString();
+                
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <h3 class="font-semibold">Order #${order.id}</h3>
+                                <p class="text-sm text-gray-600">${order.customer.name} • ${order.customer.phone}</p>
+                                <p class="text-xs text-gray-500 mt-1">${formattedDate}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge ${statusClass}">${order.status}</span>
+                                <p class="text-lg font-bold mt-2">৳${order.total.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
+                                    <div class="flex-1">
+                                        <p class="font-medium">${item.name}</p>
+                                        <p class="text-sm text-gray-600">৳${item.price.toLocaleString()} x ${item.quantity}</p>
+                                    </div>
+                                    <p class="font-semibold">৳${(item.price * item.quantity).toLocaleString()}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="order-actions">
+                            <button onclick="updateOrderStatus('${order.id}', 'pending')" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition ${order.status === 'pending' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Pending
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'confirmed')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition ${order.status === 'confirmed' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Confirm
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'shipped')" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition ${order.status === 'shipped' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Ship
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'delivered')" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition ${order.status === 'delivered' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Deliver
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'cancelled')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition ${order.status === 'cancelled' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Cancel
+                            </button>
+                            <button onclick="deleteOrder('${order.id}')" class="delete-btn">
+                                <i class="fas fa-trash mr-1"></i> Delete
+                            </button>
+                            <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Delete order
+        function deleteOrder(orderId) {
+            if (!confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
+                return;
+            }
+
+            // Remove order from orders array
+            orders = orders.filter(order => order.id !== orderId);
+            
+            // Save to localStorage
+            localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
+            
+            // Reload orders list
+            loadOrders();
+            
+            showNotification('Order deleted successfully!', 'success');
+        }
+
+        // Filter orders
+        function filterOrders() {
+            const searchTerm = document.getElementById('orderSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('orderStatusFilter').value;
+
+            let filteredOrders = orders;
+
+            // Apply status filter
+            if (statusFilter) {
+                filteredOrders = filteredOrders.filter(order => order.status === statusFilter);
+            }
+
+            // Apply search filter
+            if (searchTerm) {
+                filteredOrders = filteredOrders.filter(order => 
+                    order.customer.name.toLowerCase().includes(searchTerm) ||
+                    order.customer.phone.includes(searchTerm) ||
+                    order.id.includes(searchTerm)
+                );
+            }
+
+            // Re-render filtered orders
+            const ordersListDiv = document.getElementById('ordersList');
+            
+            if (filteredOrders.length === 0) {
+                ordersListDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No orders match your criteria.</p>';
+                return;
+            }
+
+            ordersListDiv.innerHTML = filteredOrders.map(order => {
+                const statusClass = `status-${order.status}`;
+                const formattedDate = new Date(order.timestamp).toLocaleString();
+                
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <h3 class="font-semibold">Order #${order.id}</h3>
+                                <p class="text-sm text-gray-600">${order.customer.name} • ${order.customer.phone}</p>
+                                <p class="text-xs text-gray-500 mt-1">${formattedDate}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge ${statusClass}">${order.status}</span>
+                                <p class="text-lg font-bold mt-2">৳${order.total.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
+                                    <div class="flex-1">
+                                        <p class="font-medium">${item.name}</p>
+                                        <p class="text-sm text-gray-600">৳${item.price.toLocaleString()} x ${item.quantity}</p>
+                                    </div>
+                                    <p class="font-semibold">৳${(item.price * item.quantity).toLocaleString()}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="order-actions">
+                            <button onclick="updateOrderStatus('${order.id}', 'pending')" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition ${order.status === 'pending' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Pending
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'confirmed')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition ${order.status === 'confirmed' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Confirm
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'shipped')" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition ${order.status === 'shipped' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Ship
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'delivered')" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition ${order.status === 'delivered' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Deliver
+                            </button>
+                            <button onclick="updateOrderStatus('${order.id}', 'cancelled')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition ${order.status === 'cancelled' ? 'opacity-50 cursor-not-allowed' : ''}">
+                                Cancel
+                            </button>
+                            <button onclick="deleteOrder('${order.id}')" class="delete-btn">
+                                <i class="fas fa-trash mr-1"></i> Delete
+                            </button>
+                            <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update order status
+        function updateOrderStatus(orderId, status) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = status;
+                saveToLocalStorage();
+                loadOrders();
+                showNotification(`Order status updated to ${status}`, 'success');
+            }
+        }
+
+        // View order details
+        function viewOrderDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                // Create a modal to show order details
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+                        <div class="p-6 border-b">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-playfair text-2xl font-bold">Order Details #${order.id}</h3>
+                                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-times text-2xl" aria-hidden="true"></i>
+                                    <span class="sr-only">Close</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <h4 class="font-semibold mb-2">Customer Information</h4>
+                                    <p><strong>Name:</strong> ${order.customer.name}</p>
+                                    <p><strong>Phone:</strong> ${order.customer.phone}</p>
+                                    <p><strong>Address:</strong> ${order.customer.address}</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-2">Order Information</h4>
+                                    <p><strong>Order Date:</strong> ${new Date(order.timestamp).toLocaleString()}</p>
+                                    <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                                    <p><strong>Total:</strong> ৳${order.total.toLocaleString()}</p>
+                                    ${order.trackingNumber ? `<p><strong>Tracking Number:</strong> ${order.trackingNumber}</p>` : ''}
+                                    ${order.estimatedDelivery ? `<p><strong>Estimated Delivery:</strong> ${new Date(order.estimatedDelivery).toLocaleDateString()}</p>` : ''}
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-semibold mb-2">Order Items</h4>
+                            <div class="space-y-4 mb-6">
+                                ${order.items.map(item => `
+                                    <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                                        <div class="flex-1">
+                                            <p class="font-medium">${item.name}</p>
+                                            <p class="text-sm text-gray-600">৳${item.price.toLocaleString()} x ${item.quantity}</p>
+                                        </div>
+                                        <p class="font-semibold">৳${(item.price * item.quantity).toLocaleString()}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <h4 class="font-semibold mb-2">Order Message</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <pre class="whitespace-pre-wrap">${order.message}</pre>
+                            </div>
+                            
+                            <div class="mt-6 flex justify-end gap-4">
+                                <button onclick="sendOrderToWhatsApp('${order.id}')" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                                    <i class="fab fa-whatsapp mr-2"></i> Send to WhatsApp
+                                </button>
+                                <button onclick="copyOrderDetails('${order.id}')" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                    <i class="fas fa-copy mr-2"></i> Copy Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        // Send order to WhatsApp
+        function sendOrderToWhatsApp(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                const encodedMessage = encodeURIComponent(order.message);
+                const whatsappUrl = `https://web.whatsapp.com/send?phone=8801577078101&text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        }
+
+        // Copy order details
+        function copyOrderDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                navigator.clipboard.writeText(order.message).then(() => {
+                    showNotification('Order details copied to clipboard!', 'success');
+                }).catch(() => {
+                    // Fallback if clipboard API fails
+                    const textArea = document.createElement('textarea');
+                    textArea.value = order.message;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showNotification('Order details copied to clipboard!', 'success');
+                });
+            }
+        }
+
+        // Load admin products list
+        async function loadAdminProducts() {
+            const listDiv = document.getElementById('adminProductsList');
+
+            if (!window.firebaseDb) {
+                listDiv.innerHTML = '<p class="text-center text-red-500 py-8">Firebase is not configured. Products cannot be managed.</p>';
+                return;
+            }
+
+            try {
+                const productsRef = firebase.firestore().collection('products');
+                const q = productsRef.orderBy('name');
+                const querySnapshot = await q.get();
+
+                adminProductsList = [];
+                querySnapshot.forEach((doc) => {
+                    adminProductsList.push({ id: doc.id, ...doc.data() });
+                });
+
+                renderAdminProducts(adminProductsList);
+            } catch (error) {
+                listDiv.innerHTML = `<p class="text-center text-red-500 py-8">Error loading products: ${error.message}</p>`;
+            }
+        }
+
+        // Render admin products
+        function renderAdminProducts(productsToRender) {
+            const listDiv = document.getElementById('adminProductsList');
+
+            if (productsToRender.length === 0) {
+                listDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No products found. Add your first product above.</p>';
+                return;
+            }
+
+            listDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    ${productsToRender.map(product => {
+                const mainImage = (product.images && product.images.length > 0) ? product.images[0] : product.image;
+                return `
+                        <div class="product-card-admin bg-white rounded-lg p-4">
+                            <div class="mb-3 relative">
+                                <img src="${mainImage}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg">
+                                ${product.images && product.images.length > 1 ? `<span class="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">${product.images.length} images</span>` : ''}
+                            </div>
+                            <h3 class="font-semibold text-lg mb-2">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-2 line-clamp-2">${product.description}</p>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xl font-bold text-yellow-600">৳${product.price.toLocaleString()}</span>
+                                <span class="admin-badge ${product.category}">${product.category}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="editProduct('${product.id}')" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                                <button onclick="deleteProduct('${product.id}')" class="flex-1 bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition">
+                                    <i class="fas fa-trash mr-1"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                        `;
+            }).join('')}
+                </div>
+            `;
+        }
+
+        // Filter admin products
+        function filterAdminProducts() {
+            const searchTerm = document.getElementById('adminSearchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('adminCategoryFilter').value;
+
+            let filtered = adminProductsList;
+
+            // Apply category filter
+            if (categoryFilter) {
+                filtered = filtered.filter(p => p.category === categoryFilter);
+            }
+
+            // Apply search filter
+            if (searchTerm) {
+                filtered = filtered.filter(p =>
+                    p.name.toLowerCase().includes(searchTerm) ||
+                    p.description.toLowerCase().includes(searchTerm) ||
+                    p.category.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            renderAdminProducts(filtered);
+        }
+
+        // Handle add product
+        async function handleAddProduct(e) {
+            e.preventDefault();
+
+            if (!window.firebaseDb) {
+                showNotification('Firebase is not configured. Please configure Firebase first.', 'error');
+                return;
+            }
+
+            try {
+                const name = document.getElementById('productName').value.trim();
+                const price = parseFloat(document.getElementById('productPrice').value);
+                const category = document.getElementById('productCategory').value;
+                const description = document.getElementById('productDescription').value.trim();
+
+                // Validate required fields
+                if (!name || !price || !category || !description) {
+                    showNotification('Please fill in all required fields', 'error');
+                    return;
+                }
+
+                // Validate images
+                if (productImages.length === 0) {
+                    showNotification('Please add at least one product image', 'error');
+                    return;
+                }
+
+                // Use first image as main image for backward compatibility
+                const image = productImages[0];
+                const images = productImages; // Store all images
+
+                // Get features from dynamic fields
+                const featureInputs = document.querySelectorAll('.feature-input');
+                const features = Array.from(featureInputs)
+                    .map(input => input.value.trim())
+                    .filter(f => f !== '');
+
+                if (features.length === 0) {
+                    showNotification('Please add at least one feature', 'error');
+                    return;
+                }
+
+                // Get specifications from dynamic fields
+                const specKeys = document.querySelectorAll('.spec-key');
+                const specValues = document.querySelectorAll('.spec-value');
+                const specifications = {};
+
+                for (let i = 0; i < specKeys.length; i++) {
+                    const key = specKeys[i].value.trim();
+                    const value = specValues[i].value.trim();
+                    if (key && value) {
+                        specifications[key] = value;
+                    }
+                }
+
+                if (Object.keys(specifications).length === 0) {
+                    showNotification('Please add at least one specification', 'error');
+                    return;
+                }
+
+                const productsRef = firebase.firestore().collection('products');
+
+                await productsRef.add({
+                    name,
+                    price,
+                    category,
+                    image, // Main image for backward compatibility
+                    images, // All images array
+                    description,
+                    features,
+                    specifications
+                });
+
+                // Reset form
+                resetAddForm();
+
+                // Reload products
+                await loadProducts();
+
+                showNotification('Product added successfully!', 'success');
+            } catch (error) {
+                showNotification('Error adding product: ' + error.message, 'error');
+            }
+        }
+
+        // Edit product
+        async function editProduct(productId) {
+            if (!window.firebaseDb) {
+                showNotification('Firebase is not configured.', 'error');
+                return;
+            }
+
+            try {
+                const productRef = firebase.firestore().collection('products').doc(productId);
+                const productSnap = await productRef.get();
+
+                if (!productSnap.exists()) {
+                    showNotification('Product not found', 'error');
+                    return;
+                }
+
+                const product = productSnap.data();
+
+                // Load categories first, then populate fields
+                await loadCategoryDropdowns();
+
+                // Populate basic fields
+                document.getElementById('editProductId').value = productId;
+                document.getElementById('editProductName').value = product.name;
+                document.getElementById('editProductPrice').value = product.price;
+                document.getElementById('editProductCategory').value = product.category;
+                document.getElementById('editProductDescription').value = product.description;
+
+                // Load images (support both old single image and new images array)
+                editProductImages = product.images && Array.isArray(product.images) ? [...product.images] :
+                    (product.image ? [product.image] : []);
+                renderImageGallery('editProductImagesGallery', editProductImages);
+
+                // Populate features
+                const featuresContainer = document.getElementById('editFeaturesContainer');
+                featuresContainer.innerHTML = '';
+                product.features.forEach(feature => {
+                    const div = document.createElement('div');
+                    div.className = 'feature-input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="edit-feature-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" value="${feature}">
+                        <button type="button" onclick="removeEditFeature(this)" class="text-red-500 hover:text-red-700 px-3">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    featuresContainer.appendChild(div);
+                });
+
+                // Populate specifications
+                const specsContainer = document.getElementById('editSpecsContainer');
+                specsContainer.innerHTML = '';
+                Object.entries(product.specifications).forEach(([key, value]) => {
+                    const div = document.createElement('div');
+                    div.className = 'spec-input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="edit-spec-key w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" value="${key}">
+                        <input type="text" class="edit-spec-value w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" value="${value}">
+                        <button type="button" onclick="removeEditSpec(this)" class="text-red-500 hover:text-red-700 px-3">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    specsContainer.appendChild(div);
+                });
+
+                // Show modal
+                document.getElementById('editProductModal').classList.remove('hidden');
+            } catch (error) {
+                showNotification('Error loading product: ' + error.message, 'error');
+            }
+        }
+
+        // Handle update product
+        async function handleUpdateProduct(e) {
+            e.preventDefault();
+
+            if (!window.firebaseDb) {
+                showNotification('Firebase is not configured.', 'error');
+                return;
+            }
+
+            try {
+                const productId = document.getElementById('editProductId').value;
+                const name = document.getElementById('editProductName').value.trim();
+                const price = parseFloat(document.getElementById('editProductPrice').value);
+                const category = document.getElementById('editProductCategory').value;
+                const description = document.getElementById('editProductDescription').value.trim();
+
+                // Validate required fields
+                if (!name || !price || !category || !description) {
+                    showNotification('Please fill in all required fields', 'error');
+                    return;
+                }
+
+                // Validate images
+                if (editProductImages.length === 0) {
+                    showNotification('Please add at least one product image', 'error');
+                    return;
+                }
+
+                // Use first image as main image for backward compatibility
+                const image = editProductImages[0];
+                const images = editProductImages; // Store all images
+
+                // Get features from dynamic fields
+                const featureInputs = document.querySelectorAll('.edit-feature-input');
+                const features = Array.from(featureInputs)
+                    .map(input => input.value.trim())
+                    .filter(f => f !== '');
+
+                if (features.length === 0) {
+                    showNotification('Please add at least one feature', 'error');
+                    return;
+                }
+
+                // Get specifications from dynamic fields
+                const specKeys = document.querySelectorAll('.edit-spec-key');
+                const specValues = document.querySelectorAll('.edit-spec-value');
+                const specifications = {};
+
+                for (let i = 0; i < specKeys.length; i++) {
+                    const key = specKeys[i].value.trim();
+                    const value = specValues[i].value.trim();
+                    if (key && value) {
+                        specifications[key] = value;
+                    }
+                }
+
+                if (Object.keys(specifications).length === 0) {
+                    showNotification('Please add at least one specification', 'error');
+                    return;
+                }
+
+                const productRef = firebase.firestore().collection('products').doc(productId);
+
+                await productRef.update({
+                    name,
+                    price,
+                    category,
+                    image, // Main image for backward compatibility
+                    images, // All images array
+                    description,
+                    features,
+                    specifications
+                });
+
+                closeEditModal();
+                await loadProducts();
+                loadAdminProducts();
+
+                showNotification('Product updated successfully!', 'success');
+            } catch (error) {
+                showNotification('Error updating product: ' + error.message, 'error');
+            }
+        }
+
+        // Delete product
+        async function deleteProduct(productId) {
+            if (!window.firebaseDb) {
+                showNotification('Firebase is not configured.', 'error');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const productRef = firebase.firestore().collection('products').doc(productId);
+                await productRef.delete();
+
+                await loadProducts();
+                loadAdminProducts();
+
+                showNotification('Product deleted successfully!', 'success');
+            } catch (error) {
+                showNotification('Error deleting product: ' + error.message, 'error');
+            }
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editProductModal').classList.add('hidden');
+            document.getElementById('editProductForm').reset();
+            document.getElementById('editFeaturesContainer').innerHTML = '';
+            document.getElementById('editSpecsContainer').innerHTML = '';
+            editProductImages = [];
+            renderImageGallery('editProductImagesGallery', editProductImages);
+        }
+
+        // ========== CATEGORY MANAGEMENT FUNCTIONS ==========
+
+        // Load categories
+        async function loadCategories() {
+            const listDiv = document.getElementById('categoriesList');
+
+            if (!window.firebaseDb) {
+                listDiv.innerHTML = '<p class="text-center text-red-500 py-8 col-span-full">Firebase is not configured. Categories cannot be managed.</p>';
+                return;
+            }
+
+            try {
+                const categoriesRef = firebase.firestore().collection('categories');
+                const q = categoriesRef.orderBy('displayName');
+                const querySnapshot = await q.get();
+
+                categoriesList = [];
+                querySnapshot.forEach((doc) => {
+                    categoriesList.push({ id: doc.id, ...doc.data() });
+                });
+
+                // If no categories exist, create default ones
+                if (categoriesList.length === 0) {
+                    await initializeDefaultCategories();
+                    await loadCategories(); // Reload after creating defaults
+                    return;
+                }
+
+                renderCategories(categoriesList);
+                loadCategoryDropdowns(); // Update dropdowns
+            } catch (error) {
+                listDiv.innerHTML = `<p class="text-center text-red-500 py-8 col-span-full">Error loading categories: ${error.message}</p>`;
+            }
+        }
+
+        // Initialize default categories
+        async function initializeDefaultCategories() {
+            const defaultCategories = [
+                { name: 'luxury', displayName: 'Luxury' },
+                { name: 'sport', displayName: 'Sport' },
+                { name: 'classic', displayName: 'Classic' }
+            ];
+
+            try {
+                const categoriesRef = firebase.firestore().collection('categories');
+
+                for (const cat of defaultCategories) {
+                    await categoriesRef.add(cat);
+                }
+                showNotification('Default categories created!', 'success');
+            } catch (error) {
+                showNotification('Error creating default categories: ' + error.message, 'error');
+            }
+        }
+
+        // Render categories
+        function renderCategories(categories) {
+            const listDiv = document.getElementById('categoriesList');
+
+            if (categories.length === 0) {
+                listDiv.innerHTML = '<p class="text-center text-gray-500 py-8 col-span-full">No categories found. Click "Add Category" to create one.</p>';
+                return;
+            }
+
+            listDiv.innerHTML = categories.map(category => `
+                <div class="bg-white border rounded-lg p-4 hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-semibold text-lg">${category.displayName}</h3>
+                            <p class="text-sm text-gray-500 mt-1">ID: ${category.name}</p>
+                        </div>
+                        <span class="admin-badge ${category.name}">${category.name}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editCategory('${category.id}')" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition">
+                            <i class="fas fa-edit mr-1"></i> Edit
+                        </button>
+                        <button onclick="deleteCategory('${category.id}', '${category.name}')" class="flex-1 bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition">
+                            <i class="fas fa-trash mr-1"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load categories into dropdowns
+        async function loadCategoryDropdowns() {
+            if (!window.firebaseDb) return;
+
+            try {
+                const categoriesRef = firebase.firestore().collection('categories');
+                const q = categoriesRef.orderBy('displayName');
+                const querySnapshot = await q.get();
+
+                const categories = [];
+                querySnapshot.forEach((doc) => {
+                    categories.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Update product category dropdown
+                const productCategorySelect = document.getElementById('productCategory');
+                if (productCategorySelect) {
+                    productCategorySelect.innerHTML = '<option value="">Select Category</option>' +
+                        categories.map(cat => `<option value="${cat.name}">${cat.displayName}</option>`).join('');
+                }
+
+                // Update edit product category dropdown
+                const editProductCategorySelect = document.getElementById('editProductCategory');
+                if (editProductCategorySelect) {
+                    editProductCategorySelect.innerHTML = '<option value="">Select Category</option>' +
+                        categories.map(cat => `<option value="${cat.name}">${cat.displayName}</option>`).join('');
+                }
+
+                // Update filter dropdown
+                const filterSelect = document.getElementById('adminCategoryFilter');
+                if (filterSelect) {
+                    filterSelect.innerHTML = '<option value="">All Categories</option>' +
+                        categories.map(cat => `<option value="${cat.name}">${cat.displayName}</option>`).join('');
+                }
+
+                // Update customer filter buttons
+                updateCustomerFilters(categories);
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Update customer-facing filter buttons
+        function updateCustomerFilters(categories) {
+            const filterContainer = document.querySelector('.filter-section .flex.flex-wrap.gap-2');
+            if (!filterContainer) return;
+
+            // Keep "All" button, replace others
+            const allButton = filterContainer.querySelector('#filterAll');
+            filterContainer.innerHTML = '';
+            if (allButton) filterContainer.appendChild(allButton);
+
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.id = `filter${category.name.charAt(0).toUpperCase() + category.name.slice(1)}`;
+                button.className = 'filter-btn px-6 py-2 rounded-full hover:bg-gray-200 transition';
+                button.textContent = category.displayName;
+                button.onclick = () => filterProducts(category.name);
+                filterContainer.appendChild(button);
+            });
+        }
+
+        // Show add category modal
+        function showAddCategoryModal() {
+            document.getElementById('categoryModalTitle').textContent = 'Add Category';
+            document.getElementById('categoryForm').reset();
+            document.getElementById('categoryId').value = '';
+            document.getElementById('categoryModal').classList.remove('hidden');
+        }
+
+        // Edit category
+        async function editCategory(categoryId) {
+            const category = categoriesList.find(c => c.id === categoryId);
+            if (!category) return;
+
+            document.getElementById('categoryModalTitle').textContent = 'Edit Category';
+            document.getElementById('categoryId').value = categoryId;
+            document.getElementById('categoryName').value = category.name;
+            document.getElementById('categoryDisplayName').value = category.displayName;
+            document.getElementById('categoryModal').classList.remove('hidden');
+        }
+
+        // Delete category
+        async function deleteCategory(categoryId, categoryName) {
+            if (!confirm(`Are you sure you want to delete the category "${categoryName}"? Products using this category will need to be updated.`)) {
+                return;
+            }
+
+            if (!window.firebaseDb) {
+                showNotification('Firebase is not configured.', 'error');
+                return;
+            }
+
+            try {
+                const categoryRef = firebase.firestore().collection('categories').doc(categoryId);
+                await categoryRef.delete();
+
+                await loadCategories();
+                loadCategoryDropdowns();
+                showNotification('Category deleted successfully!', 'success');
+            } catch (error) {
+                showNotification('Error deleting category: ' + error.message, 'error');
+            }
+        }
+
+        // Close category modal
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.add('hidden');
+            document.getElementById('categoryForm').reset();
+        }
+
+        // Handle category form submission
+        async function handleCategorySubmit(e) {
+            e.preventDefault();
+
+            if (!window.firebaseDb) {
+                showNotification('Firebase is not configured.', 'error');
+                return;
+            }
+
+            try {
+                const categoryId = document.getElementById('categoryId').value;
+                const name = document.getElementById('categoryName').value.trim().toLowerCase().replace(/\s+/g, '-');
+                const displayName = document.getElementById('categoryDisplayName').value.trim();
+
+                if (!name || !displayName) {
+                    showNotification('Please fill in all fields', 'error');
+                    return;
+                }
+
+                // Check if name already exists (excluding current category if editing)
+                const existing = categoriesList.find(c => c.name === name && c.id !== categoryId);
+                if (existing) {
+                    showNotification('A category with this name already exists', 'error');
+                    return;
+                }
+
+                if (categoryId) {
+                    // Update existing category
+                    const categoryRef = firebase.firestore().collection('categories').doc(categoryId);
+                    await categoryRef.update({ name, displayName });
+                    showNotification('Category updated successfully!', 'success');
+                } else {
+                    // Add new category
+                    const categoriesRef = firebase.firestore().collection('categories');
+                    await categoriesRef.add({ name, displayName });
+                    showNotification('Category added successfully!', 'success');
+                }
+
+                closeCategoryModal();
+                await loadCategories();
+                loadCategoryDropdowns();
+            } catch (error) {
+                showNotification('Error saving category: ' + error.message, 'error');
+            }
+        }
+
+        // Add image from URL input
+        function addProductImage() {
+            const url = document.getElementById('productImageInput').value.trim();
+            if (!url) {
+                showNotification('Please enter an image URL', 'warning');
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(url);
+            } catch (e) {
+                showNotification('Please enter a valid URL', 'error');
+                return;
+            }
+
+            addImageToGallery(url, 'productImagesGallery', productImages);
+            document.getElementById('productImageInput').value = '';
+        }
+
+        // Add image to gallery
+        function addImageToGallery(imageUrl, galleryId, imagesArray) {
+            imagesArray.push(imageUrl);
+            renderImageGallery(galleryId, imagesArray);
+        }
+
+        // Render image gallery
+        function renderImageGallery(galleryId, imagesArray) {
+            const gallery = document.getElementById(galleryId);
+
+            if (imagesArray.length === 0) {
+                gallery.innerHTML = '<p class="text-gray-400 text-center col-span-full py-8">No images added yet. Add your first image above.</p>';
+                return;
+            }
+
+            // Determine which array to use
+            const isEdit = galleryId === 'editProductImagesGallery';
+            const arrayName = isEdit ? 'editProductImages' : 'productImages';
+
+            gallery.innerHTML = imagesArray.map((imageUrl, index) => `
+                <div class="image-gallery-item">
+                    <img src="${imageUrl}" alt="Product image ${index + 1}" loading="lazy">
+                    ${index === 0 ? '<span class="main-badge">Main</span>' : ''}
+                    <div class="image-actions">
+                        <button onclick="setMainImage(${index}, '${galleryId}', '${arrayName}')" title="Set as main">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button onclick="removeImageFromGallery(${index}, '${galleryId}', '${arrayName}')" title="Remove">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Set main image
+        function setMainImage(index, galleryId, arrayName) {
+            const imagesArray = arrayName === 'editProductImages' ? editProductImages : productImages;
+
+            if (index === 0) return; // Already main
+
+            // Move to first position
+            const image = imagesArray[index];
+            imagesArray.splice(index, 1);
+            imagesArray.unshift(image);
+
+            renderImageGallery(galleryId, imagesArray);
+            showNotification('Main image updated', 'success');
+        }
+
+        // Remove image from gallery
+        function removeImageFromGallery(index, galleryId, arrayName) {
+            const imagesArray = arrayName === 'editProductImages' ? editProductImages : productImages;
+
+            if (imagesArray.length <= 1) {
+                showNotification('At least one image is required', 'warning');
+                return;
+            }
+
+            imagesArray.splice(index, 1);
+            renderImageGallery(galleryId, imagesArray);
+        }
+
+        // Add edit image from URL
+        function addEditProductImage() {
+            const url = document.getElementById('editProductImageInput').value.trim();
+            if (!url) {
+                showNotification('Please enter an image URL', 'warning');
+                return;
+            }
+
+            try {
+                new URL(url);
+            } catch (e) {
+                showNotification('Please enter a valid URL', 'error');
+                return;
+            }
+
+            addImageToGallery(url, 'editProductImagesGallery', editProductImages);
+            document.getElementById('editProductImageInput').value = '';
+        }
+
+        // Add feature field
+        function addFeatureField() {
+            const container = document.getElementById('featuresContainer');
+            const div = document.createElement('div');
+            div.className = 'feature-input-group mb-2';
+            div.innerHTML = `
+                <input type="text" class="feature-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Enter a feature">
+                <button type="button" onclick="removeFeature(this)" class="text-red-500 hover:text-red-700 px-3">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove feature field
+        function removeFeature(btn) {
+            const container = document.getElementById('featuresContainer');
+            if (container.children.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                showNotification('At least one feature is required', 'warning');
+            }
+        }
+
+        // Add spec field
+        function addSpecField() {
+            const container = document.getElementById('specsContainer');
+            const div = document.createElement('div');
+            div.className = 'spec-input-group mb-2';
+            div.innerHTML = `
+                <input type="text" class="spec-key w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Key (e.g., Movement)">
+                <input type="text" class="spec-value w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Value (e.g., Swiss Quartz)">
+                <button type="button" onclick="removeSpec(this)" class="text-red-500 hover:text-red-700 px-3">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove spec field
+        function removeSpec(btn) {
+            const container = document.getElementById('specsContainer');
+            if (container.children.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                showNotification('At least one specification is required', 'warning');
+            }
+        }
+
+        // Add edit feature field
+        function addEditFeatureField() {
+            const container = document.getElementById('editFeaturesContainer');
+            const div = document.createElement('div');
+            div.className = 'feature-input-group mb-2';
+            div.innerHTML = `
+                <input type="text" class="edit-feature-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Enter a feature">
+                <button type="button" onclick="removeEditFeature(this)" class="text-red-500 hover:text-red-700 px-3">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove edit feature field
+        function removeEditFeature(btn) {
+            const container = document.getElementById('editFeaturesContainer');
+            if (container.children.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                showNotification('At least one feature is required', 'warning');
+            }
+        }
+
+        // Add edit spec field
+        function addEditSpecField() {
+            const container = document.getElementById('editSpecsContainer');
+            const div = document.createElement('div');
+            div.className = 'spec-input-group mb-2';
+            div.innerHTML = `
+                <input type="text" class="edit-spec-key w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Key (e.g., Movement)">
+                <input type="text" class="edit-spec-value w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Value (e.g., Swiss Quartz)">
+                <button type="button" onclick="removeEditSpec(this)" class="text-red-500 hover:text-red-700 px-3">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove edit spec field
+        function removeEditSpec(btn) {
+            const container = document.getElementById('editSpecsContainer');
+            if (container.children.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                showNotification('At least one specification is required', 'warning');
+            }
+        }
+
+        // Reset add form
+        function resetAddForm() {
+            document.getElementById('addProductForm').reset();
+            productImages = [];
+            renderImageGallery('productImagesGallery', productImages);
+            document.getElementById('featuresContainer').innerHTML = `
+                <div class="feature-input-group mb-2">
+                    <input type="text" class="feature-input w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Enter a feature">
+                    <button type="button" onclick="removeFeature(this)" class="text-red-500 hover:text-red-700 px-3">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            document.getElementById('specsContainer').innerHTML = `
+                <div class="spec-input-group mb-2">
+                    <input type="text" class="spec-key w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Key (e.g., Movement)">
+                    <input type="text" class="spec-value w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500" placeholder="Value (e.g., Swiss Quartz)">
+                    <button type="button" onclick="removeSpec(this)" class="text-red-500 hover:text-red-700 px-3">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

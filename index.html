@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O'clock Studio - Timepieces | Luxury Watches Collection</title>
-    <meta name="description"
-        content="Discover premium timepieces at O'clock Studio. Luxury watches for every occasion with authenticity guarantee and fast delivery.">
+    <meta name="description" content="Discover premium timepieces at O'clock Studio. Luxury watches for every occasion with authenticity guarantee and fast delivery.">
     <meta name="keywords" content="luxury watches, premium timepieces, wristwatches, classic watches, sport watches">
     <meta name="author" content="O'clock Studio">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -100,7 +98,6 @@
             0% {
                 background-position: 200% 0;
             }
-
             100% {
                 background-position: -200% 0;
             }
@@ -115,7 +112,6 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -131,7 +127,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-
             to {
                 opacity: 0;
                 transform: translateY(-20px);
@@ -146,11 +141,9 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
             }
-
             70% {
                 box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
             }
-
             100% {
                 box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
             }
@@ -674,7 +667,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
             z-index: 1;
         }
 
@@ -693,7 +686,7 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255,255,255,0.5);
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -924,6 +917,7 @@
 </head>
 
 <body class="bg-gray-50">
+    <!-- Top Bar - Updated with Order Tracking -->
     <div class="bg-gray-800 text-white py-2 text-sm">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="hidden md:flex items-center space-x-4">
@@ -1769,7 +1763,7 @@
         // Make Firebase available globally
         window.firebaseAuth = auth;
         window.firebaseDb = db;
-
+        
         console.log('Firebase initialized successfully!');
 
         // Product data - will be loaded from Firebase
@@ -2076,14 +2070,14 @@
                         snapshot.forEach((doc) => {
                             products.push({ id: doc.id, ...doc.data() });
                         });
-
+                        
                         // If no products in Firebase, use defaults
                         if (products.length === 0) {
                             products = defaultProducts;
                         }
-
+                        
                         renderProducts();
-
+                        
                         // Update admin products list if visible
                         if (isAdmin && document.getElementById('productsTab') && !document.getElementById('productsTab').classList.contains('hidden')) {
                             adminProductsList = [...products];
@@ -2095,7 +2089,7 @@
                         products = defaultProducts;
                         renderProducts();
                     });
-
+                
                 realTimeListeners.push(productsListener);
             }
 
@@ -2109,7 +2103,7 @@
                         snapshot.forEach((doc) => {
                             orders.push({ id: doc.id, ...doc.data() });
                         });
-
+                        
                         // Update orders list if visible
                         if (document.getElementById('ordersTab') && !document.getElementById('ordersTab').classList.contains('hidden')) {
                             loadOrders();
@@ -2117,7 +2111,7 @@
                     }, (error) => {
                         console.error('Error in orders listener:', error);
                     });
-
+                
                 realTimeListeners.push(ordersListener);
             }
 
@@ -2131,18 +2125,18 @@
                         snapshot.forEach((doc) => {
                             categoriesList.push({ id: doc.id, ...doc.data() });
                         });
-
+                        
                         // Update categories list if visible
                         if (document.getElementById('categoriesTab') && !document.getElementById('categoriesTab').classList.contains('hidden')) {
                             renderCategories(categoriesList);
                         }
-
+                        
                         // Update category dropdowns
                         loadCategoryDropdowns();
                     }, (error) => {
                         console.error('Error in categories listener:', error);
                     });
-
+                
                 realTimeListeners.push(categoriesListener);
             }
         }
@@ -2221,7 +2215,7 @@
         // Display orders list for tracking with scrolling
         function displayOrdersList(orders) {
             const resultElement = document.getElementById('trackingResult');
-
+            
             resultElement.innerHTML = `
                 <h4 class="font-semibold mb-4">Your Orders</h4>
                 <p class="text-sm text-gray-600 mb-4">Found ${orders.length} order(s) for your phone number.</p>
@@ -2263,7 +2257,7 @@
             event.currentTarget.classList.add('active');
 
             const detailsContainer = document.getElementById('orderTrackingDetails');
-
+            
             // Define tracking steps
             const steps = [
                 { id: 'pending', label: 'Order Placed', icon: 'fa-shopping-cart' },
@@ -2274,7 +2268,7 @@
 
             // Find current step index
             const currentStepIndex = steps.findIndex(step => step.id === order.status);
-
+            
             // Generate tracking steps HTML
             const stepsHTML = steps.map((step, index) => {
                 let stepClass = '';
@@ -2339,14 +2333,14 @@
         function nextBannerSlide() {
             const slides = document.querySelectorAll('.banner-slide');
             const indicators = document.querySelectorAll('.banner-indicator');
-
+            
             // Hide current slide
             slides[currentSlide].classList.remove('active');
             indicators[currentSlide].classList.remove('active');
-
+            
             // Move to next slide
             currentSlide = (currentSlide + 1) % slides.length;
-
+            
             // Show next slide
             slides[currentSlide].classList.add('active');
             indicators[currentSlide].classList.add('active');
@@ -2355,18 +2349,18 @@
         function changeBannerSlide(index) {
             const slides = document.querySelectorAll('.banner-slide');
             const indicators = document.querySelectorAll('.banner-indicator');
-
+            
             // Hide current slide
             slides[currentSlide].classList.remove('active');
             indicators[currentSlide].classList.remove('active');
-
+            
             // Set new slide
             currentSlide = index;
-
+            
             // Show new slide
             slides[currentSlide].classList.add('active');
             indicators[currentSlide].classList.add('active');
-
+            
             // Reset interval
             clearInterval(carouselInterval);
             startBannerCarousel();
@@ -2926,17 +2920,18 @@
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             message += `\n💰 *Total Amount: ৳${total.toLocaleString()}*\n\n`;
             message += "⏰ *Order Time: " + new Date().toLocaleString() + "*\n";
+            message += "🔔 Please confirm this order ASAP";
 
             return message;
         }
 
-        // ENHANCED WhatsApp Message Sending
+        // ENHANCED WhatsApp Message Sending - FIXED TO SEND TO CUSTOMER'S WHATSAPP
         function sendWhatsAppMessage(fullName, phoneNumber, address) {
             const message = createWhatsAppMessage(fullName, phoneNumber, address);
-
+            
             // Clean the phone number (remove spaces, dashes, etc.)
             const cleanPhone = phoneNumber.replace(/[\s\-\(\)\+]/g, '');
-
+            
             // Ensure the number has the correct format for WhatsApp
             let whatsappNumber;
             if (cleanPhone.startsWith('880')) {
@@ -2946,8 +2941,8 @@
             } else if (cleanPhone.startsWith('+880')) {
                 whatsappNumber = cleanPhone.substring(1); // Remove the +
             } else {
-                // Default to the store's WhatsApp number
-                whatsappNumber = "8801577078101";
+                // Default to the customer's number if format is not recognized
+                whatsappNumber = "880" + cleanPhone.substring(1);
             }
 
             // Encode the message for URL
@@ -2955,7 +2950,7 @@
 
             // Create WhatsApp URL - using web.whatsapp.com which is more reliable
             const whatsappUrl = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
-
+            
             // Alternative URL for mobile devices
             const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
 
@@ -2970,7 +2965,7 @@
 
             // Try to detect if user is on mobile
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
+            
             // Open WhatsApp based on device type
             try {
                 if (isMobile) {
@@ -2988,7 +2983,7 @@
             } catch (error) {
                 console.error('WhatsApp error:', error);
                 showNotification('There was an issue opening WhatsApp. Please try again.', 'error');
-
+                
                 // Fallback: Show the message for manual copy
                 setTimeout(() => {
                     if (confirm('Could not open WhatsApp automatically. Would you like to copy the order details to manually send?')) {
@@ -3231,7 +3226,7 @@
                     isAdmin = true;
                     currentUser = user;
                     document.getElementById('adminButton').classList.remove('hidden');
-
+                    
                     // Set up admin-specific real-time listeners
                     setupAdminRealTimeListeners();
                 } else {
@@ -3239,7 +3234,7 @@
                     currentUser = null;
                     document.getElementById('adminButton').classList.add('hidden');
                     hideAdminPanel();
-
+                    
                     // Clean up admin-specific listeners
                     cleanupAdminRealTimeListeners();
                 }
@@ -3249,7 +3244,7 @@
         // Set up admin-specific real-time listeners
         function setupAdminRealTimeListeners() {
             if (!window.firebaseDb || !isAdmin) return;
-
+            
             // Real-time orders listener for admin
             const ordersListener = db.collection('orders')
                 .orderBy('timestamp', 'desc')
@@ -3259,7 +3254,7 @@
                     snapshot.forEach((doc) => {
                         orders.push({ id: doc.id, ...doc.data() });
                     });
-
+                    
                     // Update orders list if visible
                     if (document.getElementById('ordersTab') && !document.getElementById('ordersTab').classList.contains('hidden')) {
                         loadOrders();
@@ -3267,7 +3262,7 @@
                 }, (error) => {
                     console.error('Error in orders listener:', error);
                 });
-
+            
             realTimeListeners.push(ordersListener);
         }
 
@@ -3389,7 +3384,7 @@
         // Load orders for admin
         async function loadOrders() {
             const ordersListDiv = document.getElementById('ordersList');
-
+            
             if (!window.firebaseDb) {
                 // Fallback to localStorage
                 if (orders.length === 0) {
@@ -3425,11 +3420,11 @@
         // Render orders list
         function renderOrdersList(ordersToRender) {
             const ordersListDiv = document.getElementById('ordersList');
-
+            
             ordersListDiv.innerHTML = ordersToRender.map(order => {
                 const statusClass = `status-${order.status}`;
                 const formattedDate = new Date(order.timestamp).toLocaleString();
-
+                
                 return `
                     <div class="order-card">
                         <div class="order-header">
@@ -3499,10 +3494,10 @@
                     orders = orders.filter(order => order.id !== orderId);
                     localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
                 }
-
+                
                 // Reload orders list
                 loadOrders();
-
+                
                 showNotification('Order deleted successfully!', 'success');
             } catch (error) {
                 console.error('Error deleting order:', error);
@@ -3524,7 +3519,7 @@
 
             // Apply search filter
             if (searchTerm) {
-                filteredOrders = filteredOrders.filter(order =>
+                filteredOrders = filteredOrders.filter(order => 
                     order.customer.name.toLowerCase().includes(searchTerm) ||
                     order.customer.phone.includes(searchTerm) ||
                     order.id.includes(searchTerm)
@@ -3550,7 +3545,7 @@
                         localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
                     }
                 }
-
+                
                 // Reload orders
                 loadOrders();
                 showNotification(`Order status updated to ${status}`, 'success');
@@ -4484,5 +4479,4 @@
         }
     </script>
 </body>
-
 </html>

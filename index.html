@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O'clock Studio - Timepieces | Luxury Watches Collection</title>
-    <meta name="description" content="Discover premium timepieces at O'clock Studio. Luxury watches for every occasion with authenticity guarantee and fast delivery.">
+    <meta name="description"
+        content="Discover premium timepieces at O'clock Studio. Luxury watches for every occasion with authenticity guarantee and fast delivery.">
     <meta name="keywords" content="luxury watches, premium timepieces, wristwatches, classic watches, sport watches">
     <meta name="author" content="O'clock Studio">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -98,6 +100,7 @@
             0% {
                 background-position: 200% 0;
             }
+
             100% {
                 background-position: -200% 0;
             }
@@ -112,6 +115,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -127,6 +131,7 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+
             to {
                 opacity: 0;
                 transform: translateY(-20px);
@@ -141,9 +146,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
             }
+
             70% {
                 box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
             }
@@ -667,7 +674,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
             z-index: 1;
         }
 
@@ -686,7 +693,7 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -917,7 +924,6 @@
 </head>
 
 <body class="bg-gray-50">
-    <!-- Top Bar - Updated with Order Tracking -->
     <div class="bg-gray-800 text-white py-2 text-sm">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="hidden md:flex items-center space-x-4">
@@ -1763,7 +1769,7 @@
         // Make Firebase available globally
         window.firebaseAuth = auth;
         window.firebaseDb = db;
-        
+
         console.log('Firebase initialized successfully!');
 
         // Product data - will be loaded from Firebase
@@ -1979,12 +1985,13 @@
         let categoriesList = [];
         let productImages = [];
         let editProductImages = [];
+        let realTimeListeners = [];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function () {
             loadFromLocalStorage();
             checkAuthState();
-            loadProducts();
+            setupRealTimeListeners();
             updateCartCount();
             updateWishlistCount();
 
@@ -2056,6 +2063,100 @@
             startBannerCarousel();
         });
 
+        // ========== REAL-TIME FIREBASE LISTENERS ==========
+
+        // Set up real-time listeners
+        function setupRealTimeListeners() {
+            // Real-time products listener
+            if (window.firebaseDb) {
+                const productsListener = db.collection('products')
+                    .onSnapshot((snapshot) => {
+                        console.log('Products updated in real-time');
+                        products = [];
+                        snapshot.forEach((doc) => {
+                            products.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        // If no products in Firebase, use defaults
+                        if (products.length === 0) {
+                            products = defaultProducts;
+                        }
+
+                        renderProducts();
+
+                        // Update admin products list if visible
+                        if (isAdmin && document.getElementById('productsTab') && !document.getElementById('productsTab').classList.contains('hidden')) {
+                            adminProductsList = [...products];
+                            renderAdminProducts(adminProductsList);
+                        }
+                    }, (error) => {
+                        console.error('Error in products listener:', error);
+                        // Fallback to default products
+                        products = defaultProducts;
+                        renderProducts();
+                    });
+
+                realTimeListeners.push(productsListener);
+            }
+
+            // Real-time orders listener for admin
+            if (window.firebaseDb && isAdmin) {
+                const ordersListener = db.collection('orders')
+                    .orderBy('timestamp', 'desc')
+                    .onSnapshot((snapshot) => {
+                        console.log('Orders updated in real-time');
+                        orders = [];
+                        snapshot.forEach((doc) => {
+                            orders.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        // Update orders list if visible
+                        if (document.getElementById('ordersTab') && !document.getElementById('ordersTab').classList.contains('hidden')) {
+                            loadOrders();
+                        }
+                    }, (error) => {
+                        console.error('Error in orders listener:', error);
+                    });
+
+                realTimeListeners.push(ordersListener);
+            }
+
+            // Real-time categories listener
+            if (window.firebaseDb) {
+                const categoriesListener = db.collection('categories')
+                    .orderBy('displayName')
+                    .onSnapshot((snapshot) => {
+                        console.log('Categories updated in real-time');
+                        categoriesList = [];
+                        snapshot.forEach((doc) => {
+                            categoriesList.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        // Update categories list if visible
+                        if (document.getElementById('categoriesTab') && !document.getElementById('categoriesTab').classList.contains('hidden')) {
+                            renderCategories(categoriesList);
+                        }
+
+                        // Update category dropdowns
+                        loadCategoryDropdowns();
+                    }, (error) => {
+                        console.error('Error in categories listener:', error);
+                    });
+
+                realTimeListeners.push(categoriesListener);
+            }
+        }
+
+        // Clean up real-time listeners
+        function cleanupRealTimeListeners() {
+            realTimeListeners.forEach(unsubscribe => {
+                if (typeof unsubscribe === 'function') {
+                    unsubscribe();
+                }
+            });
+            realTimeListeners = [];
+        }
+
         // ========== ORDER TRACKING FUNCTIONS ==========
 
         // Show order tracking modal
@@ -2071,7 +2172,7 @@
         }
 
         // Track order by phone number
-        function trackOrderByPhone() {
+        async function trackOrderByPhone() {
             const phoneNumber = document.getElementById('trackingPhoneNumber').value.trim();
             const errorElement = document.getElementById('trackingPhoneError');
             const resultElement = document.getElementById('trackingResult');
@@ -2090,27 +2191,37 @@
                 return;
             }
 
-            // Find orders by phone number
-            const customerOrders = orders.filter(order => {
-                const orderPhone = order.customer.phone.replace(/\s+/g, '');
-                return orderPhone === cleanPhone;
-            });
+            try {
+                // Query orders from Firebase
+                const ordersRef = db.collection('orders');
+                const q = ordersRef.where('customer.phone', '==', cleanPhone);
+                const querySnapshot = await q.get();
 
-            if (customerOrders.length === 0) {
-                errorElement.textContent = 'No orders found for this phone number.';
+                const customerOrders = [];
+                querySnapshot.forEach((doc) => {
+                    customerOrders.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (customerOrders.length === 0) {
+                    errorElement.textContent = 'No orders found for this phone number.';
+                    errorElement.classList.remove('hidden');
+                    return;
+                }
+
+                // Display orders list with scrolling
+                displayOrdersList(customerOrders);
+                resultElement.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error tracking orders:', error);
+                errorElement.textContent = 'Error tracking orders. Please try again.';
                 errorElement.classList.remove('hidden');
-                return;
             }
-
-            // Display orders list with scrolling
-            displayOrdersList(customerOrders);
-            resultElement.classList.remove('hidden');
         }
 
         // Display orders list for tracking with scrolling
         function displayOrdersList(orders) {
             const resultElement = document.getElementById('trackingResult');
-            
+
             resultElement.innerHTML = `
                 <h4 class="font-semibold mb-4">Your Orders</h4>
                 <p class="text-sm text-gray-600 mb-4">Found ${orders.length} order(s) for your phone number.</p>
@@ -2152,7 +2263,7 @@
             event.currentTarget.classList.add('active');
 
             const detailsContainer = document.getElementById('orderTrackingDetails');
-            
+
             // Define tracking steps
             const steps = [
                 { id: 'pending', label: 'Order Placed', icon: 'fa-shopping-cart' },
@@ -2163,7 +2274,7 @@
 
             // Find current step index
             const currentStepIndex = steps.findIndex(step => step.id === order.status);
-            
+
             // Generate tracking steps HTML
             const stepsHTML = steps.map((step, index) => {
                 let stepClass = '';
@@ -2228,14 +2339,14 @@
         function nextBannerSlide() {
             const slides = document.querySelectorAll('.banner-slide');
             const indicators = document.querySelectorAll('.banner-indicator');
-            
+
             // Hide current slide
             slides[currentSlide].classList.remove('active');
             indicators[currentSlide].classList.remove('active');
-            
+
             // Move to next slide
             currentSlide = (currentSlide + 1) % slides.length;
-            
+
             // Show next slide
             slides[currentSlide].classList.add('active');
             indicators[currentSlide].classList.add('active');
@@ -2244,18 +2355,18 @@
         function changeBannerSlide(index) {
             const slides = document.querySelectorAll('.banner-slide');
             const indicators = document.querySelectorAll('.banner-indicator');
-            
+
             // Hide current slide
             slides[currentSlide].classList.remove('active');
             indicators[currentSlide].classList.remove('active');
-            
+
             // Set new slide
             currentSlide = index;
-            
+
             // Show new slide
             slides[currentSlide].classList.add('active');
             indicators[currentSlide].classList.add('active');
-            
+
             // Reset interval
             clearInterval(carouselInterval);
             startBannerCarousel();
@@ -2815,7 +2926,6 @@
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             message += `\n💰 *Total Amount: ৳${total.toLocaleString()}*\n\n`;
             message += "⏰ *Order Time: " + new Date().toLocaleString() + "*\n";
-            message += "🔔 Please confirm this order ASAP";
 
             return message;
         }
@@ -2823,10 +2933,10 @@
         // ENHANCED WhatsApp Message Sending
         function sendWhatsAppMessage(fullName, phoneNumber, address) {
             const message = createWhatsAppMessage(fullName, phoneNumber, address);
-            
+
             // Clean the phone number (remove spaces, dashes, etc.)
             const cleanPhone = phoneNumber.replace(/[\s\-\(\)\+]/g, '');
-            
+
             // Ensure the number has the correct format for WhatsApp
             let whatsappNumber;
             if (cleanPhone.startsWith('880')) {
@@ -2845,7 +2955,7 @@
 
             // Create WhatsApp URL - using web.whatsapp.com which is more reliable
             const whatsappUrl = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
-            
+
             // Alternative URL for mobile devices
             const whatsappMobileUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
 
@@ -2860,7 +2970,7 @@
 
             // Try to detect if user is on mobile
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
+
             // Open WhatsApp based on device type
             try {
                 if (isMobile) {
@@ -2872,13 +2982,13 @@
                 // Show success message
                 showNotification('Opening WhatsApp... Please check if the message is properly loaded.', 'info');
 
-                // Save order to admin panel
-                saveOrderToAdmin(fullName, phoneNumber, address, message);
+                // Save order to Firebase
+                saveOrderToFirebase(fullName, phoneNumber, address, message);
 
             } catch (error) {
                 console.error('WhatsApp error:', error);
                 showNotification('There was an issue opening WhatsApp. Please try again.', 'error');
-                
+
                 // Fallback: Show the message for manual copy
                 setTimeout(() => {
                     if (confirm('Could not open WhatsApp automatically. Would you like to copy the order details to manually send?')) {
@@ -2899,7 +3009,54 @@
             }
         }
 
-        // Save order to admin panel
+        // Save order to Firebase
+        async function saveOrderToFirebase(fullName, phoneNumber, address, message) {
+            if (!window.firebaseDb) {
+                // Fallback to localStorage if Firebase not available
+                saveOrderToAdmin(fullName, phoneNumber, address, message);
+                return;
+            }
+
+            try {
+                const order = {
+                    customer: {
+                        name: fullName,
+                        phone: phoneNumber,
+                        address: address
+                    },
+                    items: [...cart],
+                    total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                    status: 'pending',
+                    timestamp: new Date().toISOString(),
+                    message: message,
+                    // Add tracking information
+                    trackingNumber: generateTrackingNumber(),
+                    estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+                    // Add discount field for invoice
+                    discount: 0
+                };
+
+                // Save to Firebase
+                const ordersRef = db.collection('orders');
+                await ordersRef.add(order);
+
+                // Also save to localStorage for immediate access
+                order.id = Date.now().toString();
+                orders.push(order);
+                localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
+
+                // If admin is logged in and on orders tab, refresh the orders list
+                if (isAdmin && document.getElementById('ordersTab') && !document.getElementById('ordersTab').classList.contains('hidden')) {
+                    loadOrders();
+                }
+            } catch (error) {
+                console.error('Error saving order to Firebase:', error);
+                // Fallback to localStorage
+                saveOrderToAdmin(fullName, phoneNumber, address, message);
+            }
+        }
+
+        // Save order to admin panel (fallback)
         function saveOrderToAdmin(fullName, phoneNumber, address, message) {
             const order = {
                 id: Date.now().toString(),
@@ -3074,13 +3231,50 @@
                     isAdmin = true;
                     currentUser = user;
                     document.getElementById('adminButton').classList.remove('hidden');
+
+                    // Set up admin-specific real-time listeners
+                    setupAdminRealTimeListeners();
                 } else {
                     isAdmin = false;
                     currentUser = null;
                     document.getElementById('adminButton').classList.add('hidden');
                     hideAdminPanel();
+
+                    // Clean up admin-specific listeners
+                    cleanupAdminRealTimeListeners();
                 }
             });
+        }
+
+        // Set up admin-specific real-time listeners
+        function setupAdminRealTimeListeners() {
+            if (!window.firebaseDb || !isAdmin) return;
+
+            // Real-time orders listener for admin
+            const ordersListener = db.collection('orders')
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    console.log('Orders updated in real-time');
+                    orders = [];
+                    snapshot.forEach((doc) => {
+                        orders.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    // Update orders list if visible
+                    if (document.getElementById('ordersTab') && !document.getElementById('ordersTab').classList.contains('hidden')) {
+                        loadOrders();
+                    }
+                }, (error) => {
+                    console.error('Error in orders listener:', error);
+                });
+
+            realTimeListeners.push(ordersListener);
+        }
+
+        // Clean up admin-specific real-time listeners
+        function cleanupAdminRealTimeListeners() {
+            // We'll keep the main listeners, just remove admin-specific ones if needed
+            // In this case, we're keeping all listeners in one array for simplicity
         }
 
         // Show admin login modal
@@ -3193,18 +3387,49 @@
         }
 
         // Load orders for admin
-        function loadOrders() {
+        async function loadOrders() {
             const ordersListDiv = document.getElementById('ordersList');
-            
-            if (orders.length === 0) {
-                ordersListDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No orders found.</p>';
+
+            if (!window.firebaseDb) {
+                // Fallback to localStorage
+                if (orders.length === 0) {
+                    ordersListDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No orders found.</p>';
+                    return;
+                }
+                renderOrdersList(orders);
                 return;
             }
 
-            ordersListDiv.innerHTML = orders.map(order => {
+            try {
+                const ordersRef = db.collection('orders');
+                const q = ordersRef.orderBy('timestamp', 'desc');
+                const querySnapshot = await q.get();
+
+                orders = [];
+                querySnapshot.forEach((doc) => {
+                    orders.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (orders.length === 0) {
+                    ordersListDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No orders found.</p>';
+                    return;
+                }
+
+                renderOrdersList(orders);
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                ordersListDiv.innerHTML = `<p class="text-center text-red-500 py-8">Error loading orders: ${error.message}</p>`;
+            }
+        }
+
+        // Render orders list
+        function renderOrdersList(ordersToRender) {
+            const ordersListDiv = document.getElementById('ordersList');
+
+            ordersListDiv.innerHTML = ordersToRender.map(order => {
                 const statusClass = `status-${order.status}`;
                 const formattedDate = new Date(order.timestamp).toLocaleString();
-                
+
                 return `
                     <div class="order-card">
                         <div class="order-header">
@@ -3259,21 +3484,30 @@
         }
 
         // Delete order
-        function deleteOrder(orderId) {
+        async function deleteOrder(orderId) {
             if (!confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
                 return;
             }
 
-            // Remove order from orders array
-            orders = orders.filter(order => order.id !== orderId);
-            
-            // Save to localStorage
-            localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
-            
-            // Reload orders list
-            loadOrders();
-            
-            showNotification('Order deleted successfully!', 'success');
+            try {
+                if (window.firebaseDb) {
+                    // Delete from Firebase
+                    const orderRef = db.collection('orders').doc(orderId);
+                    await orderRef.delete();
+                } else {
+                    // Remove order from orders array (localStorage fallback)
+                    orders = orders.filter(order => order.id !== orderId);
+                    localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
+                }
+
+                // Reload orders list
+                loadOrders();
+
+                showNotification('Order deleted successfully!', 'success');
+            } catch (error) {
+                console.error('Error deleting order:', error);
+                showNotification('Error deleting order: ' + error.message, 'error');
+            }
         }
 
         // Filter orders
@@ -3290,7 +3524,7 @@
 
             // Apply search filter
             if (searchTerm) {
-                filteredOrders = filteredOrders.filter(order => 
+                filteredOrders = filteredOrders.filter(order =>
                     order.customer.name.toLowerCase().includes(searchTerm) ||
                     order.customer.phone.includes(searchTerm) ||
                     order.id.includes(searchTerm)
@@ -3298,78 +3532,31 @@
             }
 
             // Re-render filtered orders
-            const ordersListDiv = document.getElementById('ordersList');
-            
-            if (filteredOrders.length === 0) {
-                ordersListDiv.innerHTML = '<p class="text-center text-gray-500 py-8">No orders match your criteria.</p>';
-                return;
-            }
-
-            ordersListDiv.innerHTML = filteredOrders.map(order => {
-                const statusClass = `status-${order.status}`;
-                const formattedDate = new Date(order.timestamp).toLocaleString();
-                
-                return `
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div>
-                                <h3 class="font-semibold">Order #${order.id}</h3>
-                                <p class="text-sm text-gray-600">${order.customer.name} • ${order.customer.phone}</p>
-                                <p class="text-xs text-gray-500 mt-1">${formattedDate}</p>
-                            </div>
-                            <div class="text-right">
-                                <span class="status-badge ${statusClass}">${order.status}</span>
-                                <p class="text-lg font-bold mt-2">৳${order.total.toLocaleString()}</p>
-                            </div>
-                        </div>
-                        <div class="order-items">
-                            ${order.items.map(item => `
-                                <div class="order-item">
-                                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
-                                    <div class="flex-1">
-                                        <p class="font-medium">${item.name}</p>
-                                        <p class="text-sm text-gray-600">৳${item.price.toLocaleString()} x ${item.quantity}</p>
-                                    </div>
-                                    <p class="font-semibold">৳${(item.price * item.quantity).toLocaleString()}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="order-actions">
-                            <button onclick="updateOrderStatus('${order.id}', 'pending')" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition ${order.status === 'pending' ? 'opacity-50 cursor-not-allowed' : ''}">
-                                Pending
-                            </button>
-                            <button onclick="updateOrderStatus('${order.id}', 'confirmed')" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition ${order.status === 'confirmed' ? 'opacity-50 cursor-not-allowed' : ''}">
-                                Confirm
-                            </button>
-                            <button onclick="updateOrderStatus('${order.id}', 'shipped')" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition ${order.status === 'shipped' ? 'opacity-50 cursor-not-allowed' : ''}">
-                                Ship
-                            </button>
-                            <button onclick="updateOrderStatus('${order.id}', 'delivered')" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition ${order.status === 'delivered' ? 'opacity-50 cursor-not-allowed' : ''}">
-                                Deliver
-                            </button>
-                            <button onclick="updateOrderStatus('${order.id}', 'cancelled')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition ${order.status === 'cancelled' ? 'opacity-50 cursor-not-allowed' : ''}">
-                                Cancel
-                            </button>
-                            <button onclick="deleteOrder('${order.id}')" class="delete-btn">
-                                <i class="fas fa-trash mr-1"></i> Delete
-                            </button>
-                            <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
-                                Details
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            renderOrdersList(filteredOrders);
         }
 
         // Update order status
-        function updateOrderStatus(orderId, status) {
-            const order = orders.find(o => o.id === orderId);
-            if (order) {
-                order.status = status;
-                saveToLocalStorage();
+        async function updateOrderStatus(orderId, status) {
+            try {
+                if (window.firebaseDb) {
+                    // Update in Firebase
+                    const orderRef = db.collection('orders').doc(orderId);
+                    await orderRef.update({ status });
+                } else {
+                    // Update in localStorage (fallback)
+                    const order = orders.find(o => o.id === orderId);
+                    if (order) {
+                        order.status = status;
+                        localStorage.setItem('oclockStudioOrders', JSON.stringify(orders));
+                    }
+                }
+
+                // Reload orders
                 loadOrders();
                 showNotification(`Order status updated to ${status}`, 'success');
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                showNotification('Error updating order status: ' + error.message, 'error');
             }
         }
 
@@ -3637,9 +3824,6 @@
                 // Reset form
                 resetAddForm();
 
-                // Reload products
-                await loadProducts();
-
                 showNotification('Product added successfully!', 'success');
             } catch (error) {
                 showNotification('Error adding product: ' + error.message, 'error');
@@ -3792,7 +3976,6 @@
                 });
 
                 closeEditModal();
-                await loadProducts();
                 loadAdminProducts();
 
                 showNotification('Product updated successfully!', 'success');
@@ -3816,7 +3999,6 @@
                 const productRef = firebase.firestore().collection('products').doc(productId);
                 await productRef.delete();
 
-                await loadProducts();
                 loadAdminProducts();
 
                 showNotification('Product deleted successfully!', 'success');
@@ -4302,4 +4484,5 @@
         }
     </script>
 </body>
+
 </html>
